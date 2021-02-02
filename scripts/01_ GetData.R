@@ -59,5 +59,6 @@ resignations[it ]<- read_html(here::here("download/", str_c("page", it, ".html")
 }
 
 end_gov <- tibble(government_list, resignations)
+here::here("downlad/", rio::export(end_gov, "Resignations date.csv"))
 
 
