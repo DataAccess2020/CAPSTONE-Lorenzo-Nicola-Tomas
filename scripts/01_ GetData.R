@@ -43,10 +43,10 @@ for(z in 2:66){
  government_list[[z]] <- paste0("https://it.wikipedia.org", government_list[[z]])
 }
 
-setwd("./download")
+
 
 for(y in 1:66){
-  download.file(government_list[[y]], destfile = str_c("page", y, ".html"))
+  download.file(government_list[[y]], destfile = here::here("download/", str_c("page", y, ".html")))
   
   Sys.sleep(1)
 }
@@ -64,5 +64,3 @@ resignations[it ]<- read_html(here::here("download/", str_c("page", it, ".html")
 
 end_gov <- tibble(government_list, resignations)
 here::here("dataset/", rio::export(end_gov, "Resignations_date.csv"))
-
-
