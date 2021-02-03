@@ -37,17 +37,13 @@ government_list[[1]] <- "https://it.wikipedia.org/wiki/Governo_De_Gasperi_I"
 #Wikipedia gave us links that aren't usable to download the html files.
 #Let's build them and than download.
 
-
-
 for(z in 2:66){
- government_list[[z]] <- paste0("https://it.wikipedia.org", government_list[[z]])
+ government_list[[z]] <- paste0(base_url, government_list[[z]])
 }
 
-setwd("./download")
 
 for(y in 1:66){
-  download.file(government_list[[y]], destfile = str_c("page", y, ".html"))
-  
+  download.file(government_list[[y]], destfile = here::here("download/", str_c("page", y, ".html")))
   Sys.sleep(1)
 }
 
