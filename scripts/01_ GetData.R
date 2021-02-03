@@ -1,6 +1,6 @@
-setwd("/Users/tomasruzza/Documents/Projects/R/Data Access/CAPSTONE-Lorenzo-Nicola-Tomas/dataset")
+##setwd("/Users/tomasruzza/Documents/Projects/R/Data Access/CAPSTONE-Lorenzo-Nicola-Tomas/dataset")
 
-cabinet_dataset <- rio::import("view_cabinet.csv")  #importing dataset
+cabinet_dataset <- rio::import(here::here("dataset/", "view_cabinet.csv"))  #importing dataset
 
 cabinet_ita <- filter(cabinet_dataset,
                       country_name == "Italy") #filtering dataset
@@ -29,11 +29,15 @@ for(i in 2:66){
 government_list[i] <- name_gov <- read_html(str_c(base_url,name_gov)) %>% 
             html_node("span+ span a") %>% 
             html_attr("href")
+            Sys.sleep(1)
 }
+
 government_list[[1]] <- "https://it.wikipedia.org/wiki/Governo_De_Gasperi_I"
 
 #Wikipedia gave us links that aren't usable to download the html files.
 #Let's build them and than download.
+
+
 
 for(z in 2:66){
  government_list[[z]] <- paste0("https://it.wikipedia.org", government_list[[z]])
@@ -59,6 +63,6 @@ resignations[it ]<- read_html(here::here("download/", str_c("page", it, ".html")
 }
 
 end_gov <- tibble(government_list, resignations)
-here::here("downlad/", rio::export(end_gov, "Resignations_date.csv"))
+here::here("dataset/", rio::export(end_gov, "Resignations_date.csv"))
 
 
