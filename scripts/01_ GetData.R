@@ -9,30 +9,30 @@ cabinet_ita <- filter(cabinet_dataset,
 
 #For building -----
 
-url <- "https://it.wikipedia.org/wiki/Governo_De_Gasperi_I"
-base_url <-"https://it.wikipedia.org" 
+base_url <-"https://it.wikipedia.org"
+url2 <- "https://it.wikipedia.org/wiki/Governo_Parri"
 
 #Getting first link
 
-name_gov <- read_html(url) %>% 
-            html_node("span+ span a") %>% 
-            html_attr("href")
-name_gov 
-
+name_gov2 <- read_html(url2) %>% 
+  html_node("span+ span a") %>% 
+  html_attr("href")
+name_gov2
 #Getting all links
 
 government_list <- vector(mode = "list", length = 66) #empty vector  
 #2 to 66 'cause we already have the first link which will be put in his position
 #after the loop for praticity reasons
 
-for(i in 2:66){
-government_list[i] <- name_gov <- read_html(str_c(base_url,name_gov)) %>% 
+for(i in 1:66){
+government_list[i] <- name_gov2 <- read_html(str_c(base_url,name_gov2)) %>% 
             html_node("span+ span a") %>% 
             html_attr("href")
+
             Sys.sleep(1)
 }
 
-government_list[[1]] <- "https://it.wikipedia.org/wiki/Governo_De_Gasperi_I"
+government_list[[1]] <- "https://it.wikipedia.org/wiki/Governo_De_Gasperi_II"
 
 #Wikipedia gave us links that aren't usable to download the html files.
 #Let's build them and than download.
