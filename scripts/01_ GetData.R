@@ -5,6 +5,7 @@ cabinet_dataset <- rio::import(here::here("dataset/", "view_cabinet.csv"))  #imp
 cabinet_ita <- filter(cabinet_dataset,
                       country_name == "Italy") #filtering dataset
 
+here::here("dataset", rio::export(cabinet_ita, "Gov_Ita.csv"))
 
 
 #For building -----
@@ -32,12 +33,11 @@ government_list[i] <- name_gov2 <- read_html(str_c(base_url,name_gov2)) %>%
             Sys.sleep(1)
 }
 
-government_list[[1]] <- "https://it.wikipedia.org/wiki/Governo_De_Gasperi_II"
 
 #Wikipedia gave us links that aren't usable to download the html files.
 #Let's build them and than download.
 
-for(z in 2:66){
+for(z in 1:66){
  government_list[[z]] <- paste0(base_url, government_list[[z]])
 }
 
@@ -59,4 +59,4 @@ resignations[it ]<- read_html(here::here("download/", str_c("page", it, ".html")
 }
 
 end_gov <- tibble(government_list, resignations)
-here::here("dataset/", rio::export(end_gov, "Resignations_date.csv"))
+here::here("dataset", rio::export(end_gov, "Resignations_date.csv"))
