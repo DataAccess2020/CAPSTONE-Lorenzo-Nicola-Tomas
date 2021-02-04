@@ -33,7 +33,12 @@ data_frame <- subset(data_frame, select = -c(Governo, government_list, resignati
 
 data_frame[data_frame$ID == 49, "caretaker"] <- 1 #Ciampi was a technical gov. 
 
+data_frame<-rename(data_frame, tot_days =`Giorni in carica[1]`, real_days = `Giorni effettivi[2]`,  end_date = `Data di termine[3]`)
 
+col_order <- c("ID", "cabinet_name", "start_date",
+               "end_date", "tot_days", "real_days", "party_name", "election_date", "seats", "election_seats_total", "caretaker")
+italy<- data_frame[, col_order]
+ italy
 
 
 
