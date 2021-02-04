@@ -60,3 +60,14 @@ resignations[it ]<- read_html(here::here("download/", str_c("page", it, ".html")
 
 end_gov <- tibble(government_list, resignations)
 here::here("dataset", rio::export(end_gov, "Resignations_date.csv"))
+
+
+
+url_length<- "https://it.wikipedia.org/wiki/Governi_italiani_per_durata"
+
+download.file(url_length, destfile = here::here("download/", "GL.html"))
+
+gov_length<-read_html(here::here("download/", "GL.html")) %>% html_nodes(xpath = '//*[@id="mw-content-text"]/div[1]/div[3]/table')%>%
+  html_table(fill = TRUE)
+
+gov_length_df<-gov_length[[1]]
