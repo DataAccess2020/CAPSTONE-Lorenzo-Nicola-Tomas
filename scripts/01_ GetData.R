@@ -70,10 +70,6 @@ gov_length<-read_html(here::here("download/", "GL.html")) %>% html_nodes(xpath =
 
 gov_length_df<-gov_length[[1]]
 
-#deleting variable that are no longer useful
-#rm('ita_gov', 'ita_governments', 'ita_govs', 'resignations', 'gov_length', 'end_gov', 'cabinet_ita', 'cabinet_dataset')
-
-
 download.file("https://www.corriere.it/dataroom-milena-gabanelli/crisi-governo-66-esecutivi-75-anni-quanto-ci-costa-instabilita-politica-renzi-conte/4335b5f2-58d5-11eb-9753-e0ea6e647f4a-va.shtml", destfile = "report_corriere.html")
 
 
