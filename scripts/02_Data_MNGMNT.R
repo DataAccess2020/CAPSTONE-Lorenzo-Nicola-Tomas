@@ -40,6 +40,13 @@ col_order <- c("ID", "cabinet_name", "start_date",
 italy<- data_frame[, col_order]
  italy
 
+italy[italy$ID == 66, "tot_days"] <- 517
+is.numeric(italy$tot_days)
+as.numeric(italy$tot_days)
 
+italy[italy$ID == 7 |italy$ID == 9 | italy$ID ==27|italy$ID ==35|italy$ID ==44, "real_days"] <- c(12,11,8,10,10)
+is.numeric(italy$real_days)
+as.numeric(italy$real_days)
 
-
+as.Date(italy$start_date)
+as.Date(italy$election_date)
