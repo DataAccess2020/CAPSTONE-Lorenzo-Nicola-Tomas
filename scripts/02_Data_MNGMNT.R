@@ -39,7 +39,7 @@ col_order <- c("ID", "cabinet_name", "start_date",
                "end_date", "tot_days", "real_days", "party_name", "election_date", "seats", "election_seats_total", "caretaker")
 
 italy<- data_frame[, col_order]
- italy
+italy
 
 italy[italy$ID == 66, "tot_days"] <- 517
 is.numeric(italy$tot_days)
