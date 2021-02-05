@@ -37,16 +37,30 @@ data_frame<-rename(data_frame, tot_days =`Giorni in carica[1]`, real_days = `Gio
 
 col_order <- c("ID", "cabinet_name", "start_date",
                "end_date", "tot_days", "real_days", "party_name", "election_date", "seats", "election_seats_total", "caretaker")
+
 italy<- data_frame[, col_order]
  italy
 
 italy[italy$ID == 66, "tot_days"] <- 517
 is.numeric(italy$tot_days)
-as.numeric(italy$tot_days)
+italy$tot_days <- as.numeric(italy$tot_days)
+
 
 italy[italy$ID == 7 |italy$ID == 9 | italy$ID ==27|italy$ID ==35|italy$ID ==44, "real_days"] <- c(12,11,8,10,10)
 is.numeric(italy$real_days)
-as.numeric(italy$real_days)
+italy$real_days <- as.numeric(italy$real_days)
 
-as.Date(italy$start_date)
-as.Date(italy$election_date)
+italy$start_date <- as.Date(italy$start_date)
+italy$election_date <- as.Date(italy$election_date)
+
+str(italy)
+
+italy$crisis_days <- italy$tot_days - italy$real_days
+
+col_order <- c("ID", "cabinet_name", "start_date",
+               "end_date", "tot_days", "real_days","crisis_days", "party_name", "election_date", "seats", "election_seats_total", "caretaker")
+
+italy<- italy[, col_order]
+italy
+
+
