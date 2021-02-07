@@ -12,3 +12,5 @@
 
 #plots: ogni quanto una crisi?
 # confronto real days e tot days.
+
+#https://mikeyharper.uk/animated-plots-with-r/
