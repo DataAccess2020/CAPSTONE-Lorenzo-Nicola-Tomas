@@ -4,7 +4,7 @@ author: "Ruzza Tomas, Sioli Lorenzo, Destro Nicola"
 date: "2/7/2021"
 output: html_document
 ---
-
+<div align="center">
 ```{r  results = "asis" }
 
 #dir.create("dataset")
@@ -26,6 +26,7 @@ library(rvest)
 library(lubridate)
 library(scales)
 library(stargazer)
+library(kableExtra)
 
 cabinet_dataset <- rio::import(here::here("dataset/", "view_cabinet.csv"))  #importing dataset
 
@@ -52,13 +53,13 @@ government_list <- vector(mode = "list", length = 66) #empty vector
 #2 to 66 'cause we already have the first link which will be put in his position
 #after the loop for praticity reasons
 
-for(i in 1:66){
-government_list[i] <- name_gov2 <- read_html(str_c(base_url,name_gov2)) %>% 
-            html_node("span+ span a") %>% 
-            html_attr("href")
+#for(i in 1:66){
+#government_list[i] <- name_gov2 <- read_html(str_c(base_url,name_gov2)) %>% 
+#            html_node("span+ span a") %>% 
+#            html_attr("href")
 
-            Sys.sleep(1)
-}
+#            Sys.sleep(1)
+#}
 
 
 #Wikipedia gave us links that aren't usable to download the html files.
@@ -189,10 +190,10 @@ italy[italy$ID == 50 | italy$ID == 52 | italy$ID == 61, "outcomes" ] <- "Technoc
 italy[italy$ID == 4, "outcomes"] <- "Constitutional Referendum"
 
 
-stargazer(summarize(italy, crisis_days), type = "html", nobs = FALSE, mean.sd = TRUE, median = TRUE,
-          iqr = TRUE)
+stargazer(summarize(italy, crisis_days, tot_days, real_days), type = "html", nobs = FALSE, mean.sd = TRUE, median = TRUE, iqr = TRUE) 
 
 
 ```
+</div>
 
 

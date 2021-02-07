@@ -195,6 +195,7 @@ summary {
 </div>
 
 
+<div align="center">
 <pre class="r"><code>#dir.create(&quot;dataset&quot;)
 #dir.create(&quot;scripts&quot;)
 #dir.create(&quot;figs&quot;)
@@ -268,6 +269,12 @@ library(RCurl)</code></pre>
 ## Please cite as:</code></pre>
 <pre><code>##  Hlavac, Marek (2018). stargazer: Well-Formatted Regression and Summary Statistics Tables.</code></pre>
 <pre><code>##  R package version 5.2.2. https://CRAN.R-project.org/package=stargazer</code></pre>
+<pre class="r"><code>library(kableExtra)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;kableExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     group_rows</code></pre>
 <pre class="r"><code>cabinet_dataset &lt;- rio::import(here::here(&quot;dataset/&quot;, &quot;view_cabinet.csv&quot;))  #importing dataset
 
 cabinet_ita &lt;- filter(cabinet_dataset,
@@ -294,13 +301,13 @@ government_list &lt;- vector(mode = &quot;list&quot;, length = 66) #empty vector
 #2 to 66 &#39;cause we already have the first link which will be put in his position
 #after the loop for praticity reasons
 
-for(i in 1:66){
-government_list[i] &lt;- name_gov2 &lt;- read_html(str_c(base_url,name_gov2)) %&gt;% 
-            html_node(&quot;span+ span a&quot;) %&gt;% 
-            html_attr(&quot;href&quot;)
+#for(i in 1:66){
+#government_list[i] &lt;- name_gov2 &lt;- read_html(str_c(base_url,name_gov2)) %&gt;% 
+#            html_node(&quot;span+ span a&quot;) %&gt;% 
+#            html_attr(&quot;href&quot;)
 
-            Sys.sleep(1)
-}
+#            Sys.sleep(1)
+#}
 
 
 #Wikipedia gave us links that aren&#39;t usable to download the html files.
@@ -453,8 +460,7 @@ italy[italy$ID == 50 | italy$ID == 52 | italy$ID == 61, &quot;outcomes&quot; ] &
 italy[italy$ID == 4, &quot;outcomes&quot;] &lt;- &quot;Constitutional Referendum&quot;
 
 
-stargazer(summarize(italy, crisis_days), type = &quot;html&quot;, nobs = FALSE, mean.sd = TRUE, median = TRUE,
-          iqr = TRUE)</code></pre>
+stargazer(summarize(italy, crisis_days, tot_days, real_days), type = &quot;html&quot;, nobs = FALSE, mean.sd = TRUE, median = TRUE, iqr = TRUE) </code></pre>
 <table style="text-align:center">
 <tr>
 <td colspan="8" style="border-bottom: 1px solid black">
@@ -517,10 +523,63 @@ crisis_days
 </td>
 </tr>
 <tr>
+<td style="text-align:left">
+tot_days
+</td>
+<td>
+412.621
+</td>
+<td>
+284.090
+</td>
+<td>
+22
+</td>
+<td>
+229.5
+</td>
+<td>
+377
+</td>
+<td>
+534.2
+</td>
+<td>
+1,412
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+real_days
+</td>
+<td>
+376.803
+</td>
+<td>
+291.384
+</td>
+<td>
+8
+</td>
+<td>
+186.2
+</td>
+<td>
+348.5
+</td>
+<td>
+506.2
+</td>
+<td>
+1,409
+</td>
+</tr>
+<tr>
 <td colspan="8" style="border-bottom: 1px solid black">
 </td>
 </tr>
 </table>
+</div>
 
 
 
