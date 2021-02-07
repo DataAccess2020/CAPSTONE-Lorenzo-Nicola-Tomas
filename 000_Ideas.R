@@ -14,3 +14,5 @@
 # confronto real days e tot days.
 
 #https://mikeyharper.uk/animated-plots-with-r/
+
+#TIMELINE ISSUES : CONTE, "CONSTITUTIONAL REF." VARIABLE NAME, SHIFTARE DI 1 GLI OUTCOMES, CAMBIARE COLORI

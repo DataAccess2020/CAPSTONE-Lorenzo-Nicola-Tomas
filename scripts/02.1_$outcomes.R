@@ -19,7 +19,7 @@ italy[italy$ID == 27 | italy$ID == 32 | italy$ID == 35 | italy$ID == 44 | italy$
 
 italy[italy$ID == 49 | italy$ID == 51 | italy$ID == 60, "outcomes" ] <- "Technocratic Gov."
 
-italy[italy$ID == 3, "outcomes"] <- "Costitutional Referendum"
+italy[italy$ID == 3, "outcomes"] <- "Constitutional Referendum"
 
 
         
