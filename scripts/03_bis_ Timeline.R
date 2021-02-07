@@ -1,7 +1,7 @@
 #TIMELINE
 
-outcomes_levels <- c("Majority Confirmed", "Majority Changed", "Constitutional Referendum", "Early Election", "End Legislature", "Technocratic Gov.")
-outcomes_colors <- c("#0070C0", "#00B050", "#FFC000", "#C00000", "#FF00FF", "#66FFFF")
+outcomes_levels <- c("First Gov", "Majority Confirmed", "Majority Changed", "Constitutional Referendum", "Early Election", "End Legislature", "Technocratic Gov.")
+outcomes_colors <- c("#0070C0", "#00ff00", "#C00000", "#FFC000", "#708090", "#ff7f50", "#000000")
 
 italy$outcomes <- factor(italy$outcomes, levels=outcomes_levels, ordered=TRUE)
 
