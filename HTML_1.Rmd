@@ -1,0 +1,198 @@
+---
+title: "Government Crisis in Italy"
+author: "Ruzza Tomas, Sioli Lorenzo, Destro Nicola"
+date: "2/7/2021"
+output: html_document
+---
+
+```{r  results = "asis" }
+
+#dir.create("dataset")
+#dir.create("scripts")
+#dir.create("figs")
+#dir.create("report")
+#dir.create("docs")
+#dir.create("download")
+library(tidyverse)
+library(tidytext)
+library(rio)
+library(stringr)
+library(xml2)
+library(httr)
+library(RCurl)
+library(quanteda)
+library(rtweet)
+library(rvest)
+library(lubridate)
+library(scales)
+library(stargazer)
+
+cabinet_dataset <- rio::import(here::here("dataset/", "view_cabinet.csv"))  #importing dataset
+
+cabinet_ita <- filter(cabinet_dataset,
+                      country_name == "Italy") #filtering dataset
+
+#here::here("dataset", rio::export(cabinet_ita, "Gov_Ita.csv"))
+
+
+#For building -----
+
+base_url <-"https://it.wikipedia.org"
+url2 <- "https://it.wikipedia.org/wiki/Governo_Parri"
+
+#Getting first link
+
+name_gov2 <- read_html(url2) %>% 
+  html_node("span+ span a") %>% 
+  html_attr("href")
+name_gov2
+#Getting all links
+
+government_list <- vector(mode = "list", length = 66) #empty vector  
+#2 to 66 'cause we already have the first link which will be put in his position
+#after the loop for praticity reasons
+
+for(i in 1:66){
+government_list[i] <- name_gov2 <- read_html(str_c(base_url,name_gov2)) %>% 
+            html_node("span+ span a") %>% 
+            html_attr("href")
+
+            Sys.sleep(1)
+}
+
+
+#Wikipedia gave us links that aren't usable to download the html files.
+#Let's build them and than download.
+
+for(z in 1:66){
+ government_list[[z]] <- paste0(base_url, government_list[[z]])
+}
+
+
+#for(y in 1:66){
+#  download.file(government_list[[y]], destfile = here::here("download/", str_c("page", y, ".html")))
+#  Sys.sleep(1)
+#}
+
+#To take the dates of resignations for each government we do the same we already did
+#to get the links
+
+resignations <- vector(mode = "list", length = 66)
+
+for(it in 1:66){
+resignations[it ]<- read_html(here::here("download/", str_c("page", it, ".html"))) %>% 
+  html_node(".sinottico tr:nth-child(8) td") %>% 
+  html_text()
+}
+
+end_gov <- tibble(government_list, resignations)
+#here::here("dataset", rio::export(end_gov, "Resignations_date.csv"))
+
+url_length<- "https://it.wikipedia.org/wiki/Governi_italiani_per_durata"
+
+#download.file(url_length, destfile = here::here("download/", "GL.html"))
+
+gov_length<-read_html(here::here("download/", "GL.html")) %>% html_nodes(xpath = '//*[@id="mw-content-text"]/div[1]/div[3]/table')%>%
+  html_table(fill = TRUE)
+
+gov_length_df<-gov_length[[1]]
+
+#download.file("https://www.corriere.it/dataroom-milena-gabanelli/crisi-governo-66-esecutivi-75-anni-quanto-ci-costa-instabilita-politica-renzi-conte/4335b5f2-58d5-11eb-9753-e0ea6e647f4a-va.shtml", destfile = "report_corriere.html")
+
+#Removing errors and merging by ID
+
+ita_gov<-subset(cabinet_ita, prime_minister %in% 1)
+ita_govs<-subset(ita_gov, cabinet_name != "Dini II" & cabinet_name != "Letta II")
+
+ita_govs<-tibble::rowid_to_column(ita_govs, "ID")
+end_gov<-tibble::rowid_to_column(end_gov, "ID")
+
+ita_governments<- merge(ita_govs,end_gov,by="ID") 
+
+#removing useless variables
+
+govs_ita<- subset(ita_governments, select = -c(country_name_short, country_name, party_name_english,country_id, election_id, cabinet_id, previous_cabinet_id, party_id,left_right, party_name_short, cabinet_party,prime_minister))
+
+#managment dataframe: gov_lenght_ita
+#playing whith dates
+
+str(gov_length_df) #chech format variables
+
+annoying <- c(gov_length_df$`Data di termine[3]`)
+annoying
+gov_length_df$`Data di termine[3]` <- as.Date(annoying, format =  "%d %B %Y")
+
+gov_length_df <- subset(gov_length_df, select = -c(N.))
+
+gov_length_df <- gov_length_df[order(gov_length_df$`Data di termine[3]`), ]
+
+gov_length_df<-tibble::rowid_to_column(gov_length_df, "ID")
+
+data_frame <- merge(govs_ita,gov_length_df,by="ID") 
+
+data_frame <- subset(data_frame, select = -c(Governo, government_list, resignations, `Periodo di carica`))
+
+data_frame[data_frame$ID == 50, "caretaker"] <- 1 #Ciampi was a technical gov. 
+
+data_frame<-rename(data_frame, tot_days =`Giorni in carica[1]`, real_days = `Giorni effettivi[2]`,  end_date = `Data di termine[3]`)
+
+col_order <- c("ID", "cabinet_name", "start_date",
+               "end_date", "tot_days", "real_days", "party_name", "election_date", "seats", "election_seats_total", "caretaker")
+
+italy<- data_frame[, col_order]
+italy
+
+italy[italy$ID == 66, "tot_days"] <- 517
+is.numeric(italy$tot_days)
+italy$tot_days <- as.numeric(italy$tot_days)
+
+
+italy[italy$ID == 7 |italy$ID == 9 | italy$ID ==27|italy$ID ==35|italy$ID ==44, "real_days"] <- c(12,11,8,10,10)
+is.numeric(italy$real_days)
+italy$real_days <- as.numeric(italy$real_days)
+
+italy$start_date <- as.Date(italy$start_date)
+italy$election_date <- as.Date(italy$election_date)
+
+str(italy)
+
+italy$crisis_days <- italy$tot_days - italy$real_days
+
+col_order <- c("ID", "cabinet_name", "start_date",
+               "end_date", "tot_days", "real_days","crisis_days", "party_name", "election_date", "seats", "election_seats_total", "caretaker")
+
+italy<- italy[, col_order]
+italy
+
+italy$outcomes <- 0
+italy[italy$ID == 1, "outcomes"]<-"First Gov"
+
+italy[italy$ID == 2 | italy$ID == 5 | italy$ID == 6 | italy$ID == 8 | italy$ID == 9 | italy$ID == 11 | italy$ID == 15 | 
+        italy$ID == 16 | italy$ID == 20 | italy$ID == 21 | italy$ID == 26 | italy$ID == 30 |italy$ID == 34 | italy$ID == 38 |
+        italy$ID == 40 | italy$ID == 41 |italy$ID == 43 | italy$ID == 46 | italy$ID == 47 |italy$ID == 55 |italy$ID == 58 | italy$ID == 63 | 
+        italy$ID == 64, "outcomes"] <- "Majority Confirmed"
+
+italy[italy$ID == 3 | italy$ID == 10 | italy$ID == 12 | italy$ID == 14 | italy$ID == 17 | 
+        italy$ID == 19 | italy$ID == 23 | italy$ID == 24 | italy$ID == 25 | italy$ID == 27 | italy$ID == 29 | italy$ID == 31 |
+        italy$ID == 32 | italy$ID == 35 | italy$ID == 37 | italy$ID == 39 |italy$ID == 44 |italy$ID == 48 |
+        italy$ID == 54 | italy$ID == 56 | italy$ID == 66, "outcomes"] <- "Majority Changed"
+
+italy[italy$ID == 7 | italy$ID == 13 | italy$ID == 18 | italy$ID == 22 | italy$ID == 42 | 
+        italy$ID == 49, "outcomes"] <- "End Legislature"
+
+italy[italy$ID == 28 | italy$ID == 33 | italy$ID == 36 | italy$ID == 45 | italy$ID == 51 | 
+        italy$ID == 53 | italy$ID == 57 | italy$ID == 59 | italy$ID == 60 | italy$ID == 62 |
+        italy$ID == 65, "outcomes"] <- "Early Election"
+
+italy[italy$ID == 50 | italy$ID == 52 | italy$ID == 61, "outcomes" ] <- "Technocratic Gov."
+
+italy[italy$ID == 4, "outcomes"] <- "Constitutional Referendum"
+
+
+stargazer(summarize(italy, crisis_days), type = "html", nobs = FALSE, mean.sd = TRUE, median = TRUE,
+          iqr = TRUE)
+
+
+```
+
+
