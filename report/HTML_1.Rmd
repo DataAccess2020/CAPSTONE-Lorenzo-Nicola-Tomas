@@ -318,7 +318,9 @@ ggplot(conta, aes(x="", y=n, fill=outcomes)) +
   theme_void() # remove background, grid, numeric labels
 ```
 
-
+In order to show the differences of the Italian governments we plotted the time-spans of the 66 executives.
+The graph properly shows the behaviour of Italian republican democracy and its instability and tendency to short governments and legislatures (66 cabinets in 75 years).
+There could be, however, a new pattern towards slightly longer executives started in the 90' with the "seconda repubblica", all of the spikes of our graph are in fact grouped to the right side ( circa 1994 to today).
 
 ```{r  results = "asis" }
 #Time line days.
@@ -333,6 +335,10 @@ ggplot(italy, aes(x = start_date, y = real_days)) +
   theme_bw() 
 
 ```
+
+With such an high number of governments comes an almost equally great number of governments crisis; these periods spent "in office for current affairs" show great differences within one another.
+We saw that the average crisis lasts 35 days, but Italy has reached peaks of 128 days without a proper government coalition.
+However, most of the highest bars in our graph are in correspondence of new elections and consequents electoral campaigns, both for natural end of the legislature and for the call to early elections.
 
 ```{r  results = "asis" }
 #Crisis Days
