@@ -4,12 +4,9 @@ author: "Ruzza Tomas, Sioli Lorenzo, Destro Nicola"
 date: "2/7/2021"
 output: html_document
 ---
-<div align="center">
-
-
 
 We started by creating a specific script for setting up our software for the analysis, choosing and loading the required packages
-```{r  results = "asis" }
+```{r  message=FALSE, warning=FALSE}
 
 #dir.create("dataset")
 #dir.create("scripts")
@@ -31,6 +28,7 @@ library(lubridate)
 library(scales)
 library(stargazer)
 library(kableExtra)
+library(plotly)
 ```
 
 We imported the "parl_gov" dataset and filtered it for observations about Italy.
@@ -305,7 +303,7 @@ The high instability of the italian majorities led too several early election tu
 Three times in republican history a technocratic government establishment was necessary, with Dini in 1995 , Ciampi in 1993, and Monti in 2011 (soon to be four times).
 
 
-```{r  results = "asis" }
+```{r  echo=FALSE}
 conta <- count(italy, outcomes) 
 conta
 
@@ -322,17 +320,18 @@ In order to show the differences of the Italian governments we plotted the time-
 The graph properly shows the behaviour of Italian republican democracy and its instability and tendency to short governments and legislatures (66 cabinets in 75 years).
 There could be, however, a new pattern towards slightly longer executives started in the 90' with the "seconda repubblica", all of the spikes of our graph are in fact grouped to the right side ( circa 1994 to today).
 
-```{r  results = "asis" }
+```{r  echo=FALSE}
 #Time line days.
 
-ggplot(italy, aes(x = start_date, y = real_days)) +
+time_line2 <- ggplot(italy, aes(x = start_date, y = real_days)) +
   geom_line(color = "orange") + 
   geom_point(color = "black") +
   scale_y_continuous() +
   ggtitle("Government duration during years")+
   ylab("Real days") +
-  xlab("Date ") 
+  xlab("Date") + 
   theme_bw() 
+ggplotly(time_line2)  
 
 ```
 
@@ -340,7 +339,7 @@ With such an high number of governments comes an almost equally great number of 
 We saw that the average crisis lasts 35 days, but Italy has reached peaks of 128 days without a proper government coalition.
 However, most of the highest bars in our graph are in correspondence of new elections and consequents electoral campaigns, both for natural end of the legislature and for the call to early elections.
 
-```{r  results = "asis" }
+```{r  echo=FALSE}
 #Crisis Days
 g1 <- ggplot(italy, aes(x = ID, y = crisis_days)) +
     geom_bar(stat = "identity", fill = "darkblue") +
@@ -353,11 +352,10 @@ g1 <- ggplot(italy, aes(x = ID, y = crisis_days)) +
 points_to_label <- c("Dini I", "Monti", "Andreotti V", "Andreotti I", "Ciampi", "Gentiloni")
 
 g2 <- g1 + 
-  geom_text(aes(ID, crisis_days, label = cabinet_name), data = italy[italy$cabinet_name %in% points_to_label, ]) 
-g2  
-```
+  geom_text(aes(ID,  crisis_days, label = cabinet_name), data = italy[italy$cabinet_name %in% points_to_label, ]) 
 
-</div>
+ggplotly(g2)
+```
 
 
 
