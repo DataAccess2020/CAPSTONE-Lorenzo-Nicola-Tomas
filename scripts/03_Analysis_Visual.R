@@ -19,15 +19,16 @@ ggplot(conta, aes(x="", y=n, fill=outcomes)) +
 
 #Time line days.
 
-ggplot(italy, aes(x = start_date, y = real_days)) +
+time_line2 <- ggplot(italy, aes(x = start_date, y = real_days)) +
   geom_line(color = "orange") + 
   geom_point(color = "black") +
   scale_y_continuous() +
   ggtitle("Government duration during years")+
   ylab("Real days") +
-  xlab("Date ") 
+  xlab("Date") + 
   theme_bw() 
-  
+ggplotly(time_line2)  
+
 #Crisis Days
 g1 <- ggplot(italy, aes(x = ID, y = crisis_days)) +
     geom_bar(stat = "identity", fill = "darkblue") +
@@ -40,8 +41,9 @@ g1 <- ggplot(italy, aes(x = ID, y = crisis_days)) +
 points_to_label <- c("Dini I", "Monti", "Andreotti V", "Andreotti I", "Ciampi", "Gentiloni")
 
 g2 <- g1 + 
-  geom_text(aes(ID, crisis_days, label = cabinet_name), data = italy[italy$cabinet_name %in% points_to_label, ]) 
-g2  
+  geom_text(aes(ID,  crisis_days, label = cabinet_name), data = italy[italy$cabinet_name %in% points_to_label, ]) 
+
+ggplotly(g2)  
 
 
 
