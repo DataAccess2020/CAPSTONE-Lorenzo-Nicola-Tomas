@@ -4,6 +4,8 @@ summary(italy$real_days)
 
 summary(italy$crisis_days)
 
+sum(italy$crisis_days)
+
 stargazer(italy$tot_days, type = 'latex')
 
 conta <- count(italy, outcomes) 
