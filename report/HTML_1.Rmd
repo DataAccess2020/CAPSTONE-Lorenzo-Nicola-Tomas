@@ -5,6 +5,10 @@ date: "2/7/2021"
 output: html_document
 ---
 <div align="center">
+
+
+
+We started by creating a specific script for setting up our software for the analysis, choosing and loading the required packages
 ```{r  results = "asis" }
 
 #dir.create("dataset")
@@ -27,7 +31,15 @@ library(lubridate)
 library(scales)
 library(stargazer)
 library(kableExtra)
+```
 
+We imported the "parl_gov" dataset and filtered it for observations about Italy.
+We needed to add variables to this base dataframe and looked for them on Wikipedia, we scraped the Wikipedia pages for each and every one of the Italian republican governments with a for-loop.
+This allowed us to gather a second dataframe with the referral links and the dimission dates of the cabinets.
+We then merged the scraped df with our original one.
+We scraped another webpage from Wikipedia containing a useful table with all the infos about the exact lengths of the Italian govs, and merged it too in our main df.
+We performed multiple operations to manage and clean our data and ended up with "Italy", our final polished dataset.
+```{r  include=FALSE}
 cabinet_dataset <- rio::import(here::here("dataset/", "view_cabinet.csv"))  #importing dataset
 
 cabinet_ita <- filter(cabinet_dataset,
@@ -188,12 +200,161 @@ italy[italy$ID == 28 | italy$ID == 33 | italy$ID == 36 | italy$ID == 45 | italy$
 italy[italy$ID == 50 | italy$ID == 52 | italy$ID == 61, "outcomes" ] <- "Technocratic Gov."
 
 italy[italy$ID == 4, "outcomes"] <- "Constitutional Referendum"
+```
+
+We went on with our analysis starting from the visualization of our data.
+First, we wanted compare the crisis time between each government and the averages and highlights of the Italian cabinets.
+Our variables are "tot_days" which counts the total days of length of a given cabinet from the day of its oath to the oath of the next one.
+"real_days", which counts the days of a cabinet from oath date to resignation date.
+And "crisis_days" which counts the difference between "tot" and "real", and basically representing the crisis period of the executive.
+We found out that, on average, Italian cabinets tend to last a little more than one year (376.8 days). This data would be even worse for the so called "Prima Repubblica" period (1946-1994), the average time of the subsequent governments is almost doubled (1994-today).
+The record for the longest executive is currently 1412 (with only three crisis days) and it is held by the Berlusconi II cabinet; while the shortest is 22 days (with 11 crisis days) and it is held by the Fanfani I cabinet. 
+Italy spent 2364 days in office for current affairs in total (and counting).
 
 
+
+<div align="center">
+```{r  results = "asis" }
 stargazer(summarize(italy, crisis_days, tot_days, real_days), type = "html", nobs = FALSE, mean.sd = TRUE, median = TRUE, iqr = TRUE) 
-
-
 ```
 </div>
+
+we wanted to give an overview of the Italian republican history and its numerous governments and we plotted it in a time-line.
+The line shows the sequence of the cabinets and the nature of their establishment: confirmation of the exiting majority, new majority, new elected legislature, early elections, or technocratic government. 
+
+```{r echo= FALSE}
+#TIMELINE
+
+outcomes_levels <- c("First Gov", "Majority Confirmed", "Majority Changed", "Constitutional Referendum", "Early Election", "End Legislature", "Technocratic Gov.")
+outcomes_colors <- c("#0070C0", "#00ff00", "#C00000", "#FFC000", "#708090", "#ff7f50", "#000000")
+
+italy$outcomes <- factor(italy$outcomes, levels=outcomes_levels, ordered=TRUE)
+
+positions <- c(0.5, -0.5, 1.0, -1.0, 1.5, -1.5)
+directions <- c(1, -1)
+
+line_pos <- data.frame(
+  "start_date"=unique(italy$start_date),
+  "position"=rep(positions, length.out=length(unique(italy$start_date))),
+  "direction"=rep(directions, length.out=length(unique(italy$start_date)))
+)
+
+ita <- merge(x=italy, y=line_pos, by= "start_date", all = TRUE)
+ita <- ita[with(ita, order(start_date, outcomes)), ]
+
+head(ita)
+
+
+
+text_offset <- 0.05
+
+ita$year_count <- ave(ita$start_date==ita$start_date, ita$start_date, FUN=cumsum)
+ita$text_position <- (ita$year_count * text_offset * ita$direction) + ita$position
+head(ita)
+
+year_buffer <- 1
+
+year_date_range <- seq(min(ita$start_date) - years(year_buffer), max(ita$start_date) + years(year_buffer), by='year')
+year_format <- format(year_date_range, '%y')
+year_df <- data.frame(year_date_range, year_format)
+
+#PLOT
+
+timeline_plot<-ggplot(ita,aes(x=start_date,y=0, col=outcomes, label= cabinet_name))
+timeline_plot<-timeline_plot+labs(col="outcomes")
+timeline_plot<-timeline_plot+scale_color_manual(values=outcomes_colors, labels=outcomes_levels, drop = FALSE)
+timeline_plot<-timeline_plot+theme_classic()
+
+# Plot horizontal black line for timeline
+timeline_plot<-timeline_plot+geom_hline(yintercept=0, 
+                                        color = "black", size=0.3)
+
+# Plot vertical segment lines for milestones
+timeline_plot<-timeline_plot+geom_segment(data=ita[ita$year_count == 1,], aes(y=position,yend=0,xend=start_date), color='black', size=0.2)
+
+# Plot scatter points at zero and date
+timeline_plot<-timeline_plot+geom_point(aes(y=0), size=3)
+
+# Don't show axes, appropriately position legend
+timeline_plot<-timeline_plot+theme(axis.line.y=element_blank(),
+                                   axis.text.y=element_blank(),
+                                   axis.title.x=element_blank(),
+                                   axis.title.y=element_blank(),
+                                   axis.ticks.y=element_blank(),
+                                   axis.text.x =element_blank(),
+                                   axis.ticks.x =element_blank(),
+                                   axis.line.x =element_blank(),
+                                   legend.position = "bottom"
+)
+
+# Show text for each year
+timeline_plot<-timeline_plot+geom_text(data=year_df, aes(x=year_date_range,y=-0.1,label=year_format),size=2.5,vjust=0.5, color='black', angle=90)
+
+# Show text for each cabinet
+timeline_plot<-timeline_plot+geom_text(aes(y=text_position,label=cabinet_name),size=2.5)
+#print plot
+print(timeline_plot)
+
+```
+
+This pie-chart shows the proportions of such outcomes.
+A confirmation of the exiting majority with a government reshuffle is the most common outcome of an Italian government crisis: basically the ministers change but the majority coalition remains unchanged. 
+Similarly often a new majority is crafted without calling for new elections: a new government coalition within the same legislature, this is what recently happened in 2019 with the shift form the first and second iteration of the "Conte" cabinet.
+
+The high instability of the italian majorities led too several early election turn, making this practice very common both in the "prima" and "seconda repubblica".
+Three times in republican history a technocratic government establishment was necessary, with Dini in 1995 , Ciampi in 1993, and Monti in 2011 (soon to be four times).
+
+
+```{r  results = "asis" }
+conta <- count(italy, outcomes) 
+conta
+
+dev.off()
+
+# Basic piechart
+ggplot(conta, aes(x="", y=n, fill=outcomes)) +
+  geom_bar(stat="identity", color="white") +
+  coord_polar("y", start=0) +
+  theme_void() # remove background, grid, numeric labels
+```
+
+
+
+```{r  results = "asis" }
+#Time line days.
+
+ggplot(italy, aes(x = start_date, y = real_days)) +
+  geom_line(color = "orange") + 
+  geom_point(color = "black") +
+  scale_y_continuous() +
+  ggtitle("Government duration during years")+
+  ylab("Real days") +
+  xlab("Date ") 
+  theme_bw() 
+
+```
+
+```{r  results = "asis" }
+#Crisis Days
+g1 <- ggplot(italy, aes(x = ID, y = crisis_days)) +
+    geom_bar(stat = "identity", fill = "darkblue") +
+    scale_y_continuous() +
+    ggtitle("Crisis days")+
+    ylab("Days") +
+    xlab("")+
+    theme_bw()
+
+points_to_label <- c("Dini I", "Monti", "Andreotti V", "Andreotti I", "Ciampi", "Gentiloni")
+
+g2 <- g1 + 
+  geom_text(aes(ID, crisis_days, label = cabinet_name), data = italy[italy$cabinet_name %in% points_to_label, ]) 
+g2  
+```
+
+</div>
+
+
+
+
 
 
