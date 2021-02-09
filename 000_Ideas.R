@@ -15,4 +15,10 @@
 
 #https://mikeyharper.uk/animated-plots-with-r/
 
-#TIMELINE ISSUES : CONTE, "CONSTITUTIONAL REF." VARIABLE NAME, SHIFTARE DI 1 GLI OUTCOMES, CAMBIARE COLORI
+#Text analyis of foreign papers in realtion to the current/multiple italian crisis
+
+#Rtweet to follow current debate around Draghi
+
+#Comparison between the precedent and latter situations of italian technocratic executives maybe compare with international framework
+
+#Serve un governo tecnico? se sì perchè, serve adesso? comparazione con casi precedenti ita e non 
