@@ -63,7 +63,8 @@ col_order <- c("ID", "cabinet_name", "start_date",
 italy<- italy[, col_order]
 italy
 
+#here::here("dataset", rio::export(italy, "Gov_Crisis_Italy.csv"))
+
 #deleting variable that are no longer useful
-rm('ita_gov', 'ita_governments', 'ita_govs', 'resignations', 'gov_length', 'end_gov', 'cabinet_ita', 'cabinet_dataset')
 
 

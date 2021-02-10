@@ -1,25 +1,25 @@
-Prime minister,Member State.x,Period in office,Days in office,Technocrat economy minister,Percentage of technoc ministers,Member State.y,Type of government
-Bajnai,Hungary,15 April 2009–14 May 2010,395,Yes,50,Hungary,Full technocratic government
-Berov,Bulgaria,30 December 1992–17 October 1994,656,Yes,80,Bulgaria,Full technocratic government
-Ciampi,Italy,29 April 1993–10 May 1994,376,No,44,Italy,Technocrat‐led partisan government
-Dini,Italy,17 January 1995–17 May 1996,486,Yes,100,Italy,Full technocratic government
-Fischer,Czech Republic,8 May 2009–13 July 2010,431,Yes,100,Czech Republic,Full technocratic government
-Grivas,Greece,12 October 1989–23 November 1989,40,No,76,Greece,Nonpartisan caretaker
-Indzhova,Bulgaria,18 October 1994–25 January 1995,99,Yes,100,Bulgaria,Nonpartisan caretaker
-Isarescu,Romania,21 November 1999–26 November 2000,373,No,5,Romania,Technocrat‐led partisan government
-Lehto,Finland,18 December 1963–12 September 1964,269,Yes,100,Finland,Nonpartisan caretaker
-Liinamaa,Finland,13 June 1975–21 September 1975,100,Yes,100,Finland,Nonpartisan caretaker
-Monti,Italy,16 November 2011–27 April 2013,528,Yes,100,Italy,Full technocratic government
-Nobre de Costa,Portugal,29 August 1978–15 September 1978,18,Yes,100,Portugal,Nonpartisan caretaker
-Papademos,Greece,11 November 2011–16 May 2012,187,No,17,Greece,Technocrat‐led partisan government
-Pikrammenos,Greece,16 May 2012–17 June 2012,31,Yes,100,Greece,Nonpartisan caretaker
-Pintassilgo,Portugal,31 July 1979–12 December 1979,147,Yes,100,Portugal,Nonpartisan caretaker
-Raykov,Bulgaria,13 March 2013–29 May 2013,77,Yes,100,Bulgaria,Nonpartisan caretaker
-Stolojan,Romania,16 October 1991–27 September 1992,347,No,10,Romania,Technocrat‐led partisan government
-Tošovský,Czech Republic,1 February 1998–17 July 1998,166,No,38,Czech Republic,Nonpartisan caretaker
-Vacaroiu I,Romania,13 November 1992–18 August 1994,644,Yes,50,Romania,Full technocratic government
-Vacaroiu II,Romania,19 August 1994–1 September 1996,745,Yes,32,Romania,Technocrat‐led partisan government
-Vacaroiu III,Romania,2 September 1996–3 November 1996,101,Yes,41,Romania,Technocrat‐led partisan government
-Von Fieandt,Finland,29 November 1957–18 April 1958,140,Yes,100,Finland,Nonpartisan caretaker
-Zolotas I,Greece,23 November 1989–13 February 1990,82,No,32,Greece,Technocrat‐led partisan government
-Zolotas II,Greece,13 February 1990–11 April 1990,57,No,68,Greece,Nonpartisan caretaker
+state,prime_minister,gov_type,tech_percentage,tec_economy_min,office_period,tot_days
+Hungary,Bajnai,Full technocratic government,50,Yes,15 April 2009–14 May 2010,395
+Bulgaria,Berov,Full technocratic government,80,Yes,30 December 1992–17 October 1994,656
+Italy,Ciampi,Technocrat‐led partisan government,44,No,29 April 1993–10 May 1994,376
+Italy,Dini,Full technocratic government,100,Yes,17 January 1995–17 May 1996,486
+Czech Republic,Fischer,Full technocratic government,100,Yes,8 May 2009–13 July 2010,431
+Greece,Grivas,Nonpartisan caretaker,76,No,12 October 1989–23 November 1989,40
+Bulgaria,Indzhova,Nonpartisan caretaker,100,Yes,18 October 1994–25 January 1995,99
+Romania,Isarescu,Technocrat‐led partisan government,5,No,21 November 1999–26 November 2000,373
+Finland,Lehto,Nonpartisan caretaker,100,Yes,18 December 1963–12 September 1964,269
+Finland,Liinamaa,Nonpartisan caretaker,100,Yes,13 June 1975–21 September 1975,100
+Italy,Monti,Full technocratic government,100,Yes,16 November 2011–27 April 2013,528
+Portugal,Nobre de Costa,Nonpartisan caretaker,100,Yes,29 August 1978–15 September 1978,18
+Greece,Papademos,Technocrat‐led partisan government,17,No,11 November 2011–16 May 2012,187
+Greece,Pikrammenos,Nonpartisan caretaker,100,Yes,16 May 2012–17 June 2012,31
+Portugal,Pintassilgo,Nonpartisan caretaker,100,Yes,31 July 1979–12 December 1979,147
+Bulgaria,Raykov,Nonpartisan caretaker,100,Yes,13 March 2013–29 May 2013,77
+Romania,Stolojan,Technocrat‐led partisan government,10,No,16 October 1991–27 September 1992,347
+Czech Republic,Tošovský,Nonpartisan caretaker,38,No,1 February 1998–17 July 1998,166
+Romania,Vacaroiu I,Full technocratic government,50,Yes,13 November 1992–18 August 1994,644
+Romania,Vacaroiu II,Technocrat‐led partisan government,32,Yes,19 August 1994–1 September 1996,745
+Romania,Vacaroiu III,Technocrat‐led partisan government,41,Yes,2 September 1996–3 November 1996,101
+Finland,Von Fieandt,Nonpartisan caretaker,100,Yes,29 November 1957–18 April 1958,140
+Greece,Zolotas I,Technocrat‐led partisan government,32,No,23 November 1989–13 February 1990,82
+Greece,Zolotas II,Nonpartisan caretaker,68,No,13 February 1990–11 April 1990,57
