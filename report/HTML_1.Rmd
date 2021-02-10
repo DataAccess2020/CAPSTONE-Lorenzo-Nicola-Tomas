@@ -220,7 +220,7 @@ stargazer(summarize(italy, crisis_days, tot_days, real_days), type = "html", nob
 we wanted to give an overview of the Italian republican history and its numerous governments and we plotted it in a time-line.
 The line shows the sequence of the cabinets and the nature of their establishment: confirmation of the exiting majority, new majority, new elected legislature, early elections, or technocratic government. 
 
-```{r echo= FALSE}
+```{r echo= FALSE, message = FALSE, out.width='100%'}
 #TIMELINE
 
 outcomes_levels <- c("First Gov", "Majority Confirmed", "Majority Changed", "Constitutional Referendum", "Early Election", "End Legislature", "Technocratic Gov.")
