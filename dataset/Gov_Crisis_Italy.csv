@@ -1,0 +1,67 @@
+ID,cabinet_name,start_date,end_date,tot_days,real_days,crisis_days,party_name,election_date,seats,election_seats_total,caretaker,outcomes
+1,De Gasperi I,1946-07-13,1947-01-20,203,190,13,Democrazia Cristiana,1946-06-02,207,556,0,Majority Confirmed
+2,De Gasperi II,1947-02-02,1947-05-13,119,100,19,Democrazia Cristiana,1946-06-02,207,556,0,Majority Changed
+3,De Gasperi III,1947-05-31,1948-05-12,358,346,12,Democrazia Cristiana,1946-06-02,207,556,0,Costitutional Referendum
+4,De Gasperi IV,1948-05-23,1950-01-12,613,598,15,Democrazia Cristiana,1948-04-18,305,574,0,Majority Confirmed
+5,De Gasperi V,1950-01-21,1951-07-16,545,535,10,Democrazia Cristiana,1948-04-18,305,574,0,Majority Confirmed
+6,De Gasperi VI,1951-07-26,1953-06-29,721,704,17,Democrazia Cristiana,1948-04-18,305,574,0,End Legislature
+7,De Gasperi VII,1953-07-16,1953-07-28,32,12,20,Democrazia Cristiana,1953-06-07,263,590,0,Majority Confirmed
+8,Pella,1953-08-17,1954-01-05,155,141,14,Democrazia Cristiana,1953-06-07,263,590,0,Majority Confirmed
+9,Fanfani I,1954-01-18,1954-01-30,22,11,11,Democrazia Cristiana,1953-06-07,263,590,0,Majority Changed
+10,Scelba,1954-02-10,1955-06-23,511,498,13,Democrazia Cristiana,1953-06-07,263,590,0,Majority Confirmed
+11,Segni I,1955-07-22,1957-05-06,684,670,14,Democrazia Cristiana,1953-06-07,263,590,0,Majority Changed
+12,Zoli,1957-05-19,1958-06-19,408,395,13,Democrazia Cristiana,1953-06-07,263,590,0,End Legislature
+13,Fanfani II,1958-07-01,1959-01-26,229,208,21,Democrazia Cristiana,1958-05-25,273,596,0,Majority Changed
+14,Segni II,1959-02-15,1960-02-24,404,373,31,Democrazia Cristiana,1958-05-25,273,596,0,Majority Confirmed
+15,Tambroni,1960-03-26,1960-07-19,123,115,8,Democrazia Cristiana,1958-05-25,273,596,0,Majority Confirmed
+16,Fanfani III,1960-07-26,1962-02-02,575,555,20,Democrazia Cristiana,1958-05-25,273,596,0,Majority Changed
+17,Fanfani IV,1962-02-21,1963-05-16,485,448,37,Democrazia Cristiana,1958-05-25,273,596,0,End Legislature
+18,Leone I,1963-06-21,1963-11-05,166,136,30,Democrazia Cristiana,1963-04-28,260,630,0,Majority Changed
+19,Moro I,1963-12-04,1964-06-26,231,204,27,Democrazia Cristiana,1963-04-28,260,630,0,Majority Confirmed
+20,Moro II,1964-07-22,1966-01-21,581,547,34,Democrazia Cristiana,1963-04-28,260,630,0,Majority Confirmed
+21,Moro III,1966-02-23,1968-06-05,852,832,20,Democrazia Cristiana,1963-04-28,260,630,0,End Legislature
+22,Leone II,1968-06-24,1968-11-19,171,147,24,Democrazia Cristiana,1968-05-19,266,630,0,Majority Changed
+23,Rumor I,1968-12-12,1969-07-05,236,204,32,Democrazia Cristiana,1968-05-19,266,630,0,Majority Changed
+24,Rumor II,1969-08-05,1970-02-07,234,185,49,Democrazia Cristiana,1968-05-19,266,630,0,Majority Changed
+25,Rumor III,1970-03-27,1970-07-06,131,100,31,Democrazia Cristiana,1968-05-19,266,630,0,Majority Confirmed
+26,Colombo,1970-08-06,1972-01-15,561,527,34,Democrazia Cristiana,1968-05-19,266,630,0,Majority Changed
+27,Andreotti I,1972-02-17,1972-02-26,129,8,121,Democrazia Cristiana,1968-05-19,266,630,1,Early Election
+28,Andreotti II,1972-07-26,1973-06-12,377,351,26,Democrazia Cristiana,1972-05-07,266,630,0,Majority Changed
+29,Rumor IV,1973-07-07,1974-03-02,250,237,13,Democrazia Cristiana,1972-05-07,266,630,0,Majority Confirmed
+30,Rumor V,1974-03-14,1974-10-03,253,202,51,Democrazia Cristiana,1972-05-07,266,630,0,Majority Changed
+31,Moro IV,1974-11-23,1976-01-07,446,410,36,Democrazia Cristiana,1972-05-07,266,630,0,Majority Changed
+32,Moro V,1976-02-12,1976-04-30,169,78,91,Democrazia Cristiana,1972-05-07,266,630,0,Early Election
+33,Andreotti III,1976-07-29,1978-01-16,591,535,56,Democrazia Cristiana,1976-06-20,262,630,0,Majority Confirmed
+34,Andreotti IV,1978-03-11,1979-01-31,373,324,49,Democrazia Cristiana,1976-06-20,262,630,0,Majority Changed
+35,Andreotti V,1979-03-20,1979-03-31,137,10,127,Democrazia Cristiana,1976-06-20,262,630,0,Early Election
+36,Cossiga I,1979-08-04,1980-03-19,243,227,16,Democrazia Cristiana,1979-06-03,262,630,0,Majority Changed
+37,Cossiga II,1980-04-04,1980-09-28,197,177,20,Democrazia Cristiana,1979-06-03,262,630,0,Majority Confirmed
+38,Forlani,1980-10-18,1981-05-26,253,220,33,Democrazia Cristiana,1979-06-03,262,630,0,Majority Changed
+39,Spadolini I,1981-06-28,1982-08-07,421,405,16,Partito Repubblicano Italiano,1979-06-03,16,630,0,Majority Confirmed
+40,Spadolini II,1982-08-23,1982-11-13,100,82,18,Partito Repubblicano Italiano,1979-06-03,16,630,0,Majority Confirmed
+41,Fanfani V,1982-12-01,1983-04-29,246,149,97,Democrazia Cristiana,1979-06-03,262,630,0,End Legislature
+42,Craxi I,1983-08-04,1986-06-27,1093,1058,35,Partito Socialista Italiano,1983-06-26,73,630,0,Majority Confirmed
+43,Craxi II,1986-08-01,1987-03-03,260,214,46,Partito Socialista Italiano,1983-06-26,73,630,0,Majority Changed
+44,Fanfani VI,1987-04-17,1987-04-28,102,10,92,Democrazia Cristiana,1983-06-26,225,630,0,Early Election
+45,Goria,1987-07-28,1988-03-11,259,226,33,Democrazia Cristiana,1987-06-14,234,630,0,Majority Confirmed
+46,De Mita,1988-04-13,1989-05-19,466,401,65,Democrazia Cristiana,1987-06-14,234,630,0,Majority Confirmed
+47,Andreotti VI,1989-07-23,1991-03-29,629,614,15,Democrazia Cristiana,1987-06-14,234,630,0,Majority Changed
+48,Andreotti VII,1991-04-13,1992-04-24,442,377,65,Democrazia Cristiana,1987-06-14,234,630,0,End Legislature
+49,Amato I,1992-06-28,1993-04-22,305,298,7,Partito Socialista Italiano,1992-04-05,92,630,0,Technocratic Gov.
+50,Ciampi,1993-04-29,1994-01-13,377,259,118,Presidente del Consiglio dei ministri,1992-04-05,0,630,1,Early Election
+51,Berlusconi I,1994-05-11,1994-12-22,251,225,26,Forza Italia – Il Popolo della Libertà,1994-03-27,99,630,0,Technocratic Gov.
+52,Dini I,1995-01-17,1996-01-11,487,359,128,Presidente del Consiglio dei ministri,1994-03-27,0,630,1,Early Election
+53,Prodi I,1996-05-18,1998-10-09,886,874,12,Popolari per Prodi,1996-04-21,75,630,0,Majority Changed
+54,D'Alema I,1998-10-21,1999-12-18,427,423,4,Democratici di Sinistra,1996-04-21,170,630,0,Majority Confirmed
+55,D'Alema II,1999-12-21,2000-04-19,126,119,7,Democratici di Sinistra,1996-04-21,170,630,0,Majority Changed
+56,Amato II,2000-04-28,2001-05-31,411,400,11,Presidente del Consiglio dei ministri,1996-04-21,0,630,0,Early Election
+57,Berlusconi II,2001-06-11,2005-04-20,1412,1409,3,Forza Italia – Il Popolo della Libertà,2001-05-13,194,630,0,Majority Confirmed
+58,Berlusconi III,2005-05-28,2006-05-02,389,374,15,Forza Italia – Il Popolo della Libertà,2001-05-13,194,630,0,Early Election
+59,Prodi II,2006-05-17,2008-01-24,722,617,105,Centro-sinistra,2006-04-09,220,630,0,Early Election
+60,Berlusconi IV,2008-05-08,2011-11-12,1287,1283,4,Forza Italia – Il Popolo della Libertà,2008-04-13,0,630,0,Technocratic Gov.
+61,Monti,2011-11-16,2012-12-21,529,401,128,Presidente del Consiglio dei ministri,2008-04-13,0,630,1,Early Election
+62,Letta I,2013-04-27,2014-02-14,300,292,8,Partito Democratico,2013-02-25,297,630,0,Majority Confirmed
+63,Renzi,2014-02-22,2016-12-07,1024,1019,5,Partito Democratico,2013-02-25,297,630,0,Majority Confirmed
+64,Gentiloni,2016-12-12,2018-03-24,536,467,69,Partito Democratico,2013-02-25,297,630,0,Early Election
+65,Conte I,2018-06-01,2019-08-20,461,445,16,Presidente del Consiglio dei ministri,2018-03-04,0,630,0,Majority Changed
+66,Conte II,2019-09-05,2021-01-26,517,509,8,Presidente del Consiglio dei ministri,2018-03-04,0,630,0,0
