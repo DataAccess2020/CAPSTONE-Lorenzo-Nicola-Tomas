@@ -22,3 +22,10 @@
 #Comparison between the precedent and latter situations of italian technocratic executives maybe compare with international framework
 
 #Serve un governo tecnico? se sì perchè, serve adesso? comparazione con casi precedenti ita e non 
+
+
+#########
+#Techn Analysis
+#MAP
+#TIME
+#HISTOGRAM OF GOV TYPE, ECONOMY, TECH PERCENTAGE
