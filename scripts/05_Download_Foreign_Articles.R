@@ -11,7 +11,7 @@ link_to_pages <- str_c("https://www.spiegel.de/thema/regierungskrise_in_italien/
 
 
 for (i in seq_along(link_to_pages)) {
-  download.file(url = link_to_pages[i], destfile = here::here("pages/", str_c("page", i, ".html")))
+  download.file(url = link_to_pages[i], destfile = here::here("download/Newspapers/Spiegel", str_c("page", i, ".html")))
   Sys.sleep(1)
 }
 
@@ -21,7 +21,7 @@ links <-  rep(list(vector(mode ="list", length = 20)), 9)
 
 for(x in seq_along(links)){
   
-storage[[x]]<- read_html(here::here("pages", str_c("page", x, ".html", sep = ""))) %>% 
+storage[[x]]<- read_html(here::here("download/Newspapers/Spiegel", str_c("page", x, ".html", sep = ""))) %>% 
   html_nodes(".block") %>% 
   html_attr("href")
 
@@ -39,10 +39,8 @@ links <- unlist(links)
 links <- na.omit(links)
 links
 
-dir.create("pages/articles")
-
 for (i in seq_along(links)) {
-  download.file(url = links[i], destfile = here::here("pages/articles/", str_c("art", i, ".html")))
+  download.file(url = links[i], destfile = here::here("download/Newspapers/Spiegel/articles", str_c("art", i, ".html")))
   Sys.sleep(1)
 }
 
