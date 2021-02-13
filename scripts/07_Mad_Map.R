@@ -29,22 +29,9 @@ techmap<-tibble::rowid_to_column(techmap, "ID")
 techmap<-merge(N,techmap, by= "ID")
 
 
-
-
 Map1<-EU + geom_point(aes(x = CapitalLongitude, y = CapitalLatitude, label=state, label2=N, label3=tot_days), data = techmap, size = 2.5, color="red") + 
-  theme(legend.position="bottom")
+  theme(axis.text.x = element_blank(), axis.text.y = element_blank()) + ylab("") + xlab("")
 ggplotly(Map1)
 
-
-
-
-
-
-
 rm(concap, europe, view_cabinet, N, Map1, EU, capmap, Europe, world)
-
-
-
-
-
 
