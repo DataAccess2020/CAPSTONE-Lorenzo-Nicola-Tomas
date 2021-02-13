@@ -49,13 +49,13 @@ description <- rep(list(vector(mode ="list", length = 20)), 9)
 text <- rep(list(vector(mode ="list", length = 20)), 9)
 
 for(z in 1:172){
-  title[[z]] <- read_html(here::here("pages/articles",str_c("art" ,z, ".html"))) %>% 
+  title[[z]] <- read_html(here::here("download/Newspapers/Spiegel/articles",str_c("art" ,z, ".html"))) %>% 
     html_nodes(".sm\\:text-4xl") %>% 
     html_text()
-  description[[z]] <- read_html(here::here("pages/articles",str_c("art" ,z, ".html"))) %>%  
+  description[[z]] <- read_html(here::here("download/Newspapers/Spiegel/articles",str_c("art" ,z, ".html"))) %>%  
     html_nodes("#Inhalt .md\\:mb-32") %>% 
     html_text()
-  text[[z]] <- read_html(here::here("pages/articles",str_c("art" ,z, ".html"))) %>% 
+  text[[z]] <- read_html(here::here("download/Newspapers/Spiegel/articles",str_c("art" ,z, ".html"))) %>% 
     html_nodes(".word-wrap") %>% 
     html_text()
 }
