@@ -48,7 +48,8 @@ timeline_plot<-timeline_plot+geom_hline(yintercept=0,
 timeline_plot<-timeline_plot+geom_segment(data=ita[ita$year_count == 1,], aes(y=position,yend=0,xend=start_date), color='black', size=0.2)
 
 # Plot scatter points at zero and date
-timeline_plot<-timeline_plot+geom_point(aes(y=0), size=3)
+timeline_plot<-timeline_plot+geom_point(aes(y=0), size=3) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 # Don't show axes, appropriately position legend
 timeline_plot<-timeline_plot+theme(axis.line.y=element_blank(),
@@ -68,7 +69,7 @@ timeline_plot<-timeline_plot+geom_text(data=year_df, aes(x=year_date_range,y=-0.
 # Show text for each cabinet
 timeline_plot<-timeline_plot+geom_text(aes(y=text_position,label=cabinet_name),size=2.5)
 #print plot
-
+#print(timeline_plot)
 ggplotly(timeline_plot)
 
 

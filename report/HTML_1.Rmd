@@ -291,7 +291,7 @@ timeline_plot<-timeline_plot+geom_text(data=year_df, aes(x=year_date_range,y=-0.
 # Show text for each cabinet
 timeline_plot<-timeline_plot+geom_text(aes(y=text_position,label=cabinet_name),size=2.5)
 #print plot
-print(timeline_plot)
+ggplotly(timeline_plot)
 
 ```
 
