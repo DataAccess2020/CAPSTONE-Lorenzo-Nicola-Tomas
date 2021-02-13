@@ -432,9 +432,21 @@ EU<-ggplot(Europe) +
   coord_sf(xlim = c(-25,50), ylim = c(35,70), expand = FALSE)
 
 
-Map1<-EU + geom_point(aes(x = CapitalLongitude, y = CapitalLatitude), data = techmap, size = 2.5) + 
+N<-c(3,3,3,2,2,3,3,3,5,5,5,5,5,1,3,3,3,2,2,5,5,5,5,5)
+N<-as.data.frame(N)
+N<-tibble::rowid_to_column(N, "ID")
+techmap<-tibble::rowid_to_column(techmap, "ID")
+techmap<-merge(N,techmap, by= "ID")
+
+
+
+
+Map1<-EU + geom_point(aes(x = CapitalLongitude, y = CapitalLatitude, label=state, label2=N, label3=tot_days), data = techmap, size = 2.5, color="red") + 
   theme(legend.position="bottom")
 ggplotly(Map1)
+
+
+rm(concap, europe, view_cabinet, N, Map1, EU, capmap, Europe, world)
 
 ```
 
