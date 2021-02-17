@@ -17,7 +17,7 @@ for(z in 1:5){
 }
 
 GuardianMonti <- tibble(title, description, text)
-
+#############################################################################
 ##GUARDIAN DRAGHI
 
 title <- vector(mode ="list", length = 10)
@@ -64,4 +64,116 @@ title[[9]]<-read_html("https://www.theguardian.com/commentisfree/2021/feb/04/the
 
 ##as tibble
 GuardianDraghi <- tibble(title, description, text)
+
+#########################################################################################################
+
+##LEMONDE MONTI
+title <-vector(mode ="list", length = 5)
+description <-vector(mode ="list", length = 5)
+text <-vector(mode ="list", length = 5)
+
+for(z in 1:5){
+  title[[z]] <- read_html(here::here("download/Newspapers/LeMonde/Monti",str_c("LMM" ,z, ".html"))) %>% 
+    html_nodes(xpath = '//*[@id="habillagepub"]/section/header/div/div/h1') %>% 
+    html_text()
+  description[[z]] <- read_html(here::here("download/Newspapers/LeMonde/Monti",str_c("LMM" ,z, ".html"))) %>%  
+    html_nodes(".article__desc") %>% 
+    html_text()
+  text[[z]] <- read_html(here::here("download/Newspapers/LeMonde/Monti",str_c("LMM" ,z, ".html"))) %>% 
+    html_nodes(".article__paragraph") %>% 
+    html_text()
+}
+
+#fixing n4
+title[[4]]<-read_html("https://www.lemonde.fr/idees/article/2011/11/16/et-si-l-italie-de-mario-monti-sauvait-l-europe_1604498_3232.html")%>%
+  html_nodes(css = ".article__title--opinion")%>% html_text()
+
+#as tibble
+LeMondeMonti <- tibble(title, description, text)
+
+#########################################################################################################################################################à
+
+##LEMONDE DRAGHI
+title <-vector(mode ="list", length = 5)
+description <-vector(mode ="list", length = 5)
+text <-vector(mode ="list", length = 5)
+
+for(z in 1:5){
+  title[[z]] <- read_html(here::here("download/Newspapers/LeMonde/Draghi",str_c("LMD" ,z, ".html"))) %>% 
+    html_nodes(xpath = '//*[@id="habillagepub"]/section/header/div/div/h1') %>% 
+    html_text()
+  description[[z]] <- read_html(here::here("download/Newspapers/LeMonde/Draghi",str_c("LMD" ,z, ".html"))) %>%  
+    html_nodes(".article__desc") %>% 
+    html_text()
+  text[[z]] <- read_html(here::here("download/Newspapers/LeMonde/Draghi",str_c("LMD" ,z, ".html"))) %>% 
+    html_nodes(".article__paragraph") %>% 
+    html_text()
+}
+
+
+
+#fixing n1
+title[[1]]<-read_html("https://www.lemonde.fr/idees/article/2021/02/06/mario-draghi-le-pari-politique-de-l-italie_6069013_3232.html"
+)%>%
+  html_nodes(css = ".article__title--opinion")%>% html_text()
+#fixing n5
+title[[5]]<-read_html("https://www.lemonde.fr/idees/article/2019/03/04/mario-draghi-l-europe-la-souverainete-et-la-mondialisation_5431074_3232.html")%>%
+  html_nodes(xpath = '//*[@id="Longform"]/section[2]/h1')%>% html_text()
+
+#as tibble
+LeMondeDraghi <- tibble(title, description, text)
+
+#########################################################################################################################################################################à
+
+
+##BBC DRAGHI
+
+title <-vector(mode ="list", length = 5)
+description <-vector(mode ="list", length = 5)
+text <-vector(mode ="list", length = 5)
+
+for(z in 1:5){
+  title[[z]] <- read_html(here::here("download/Newspapers/BBC/Draghi",str_c("BBD" ,z, ".html"))) %>% 
+    html_nodes("#main-heading") %>% 
+    html_text()
+  description[[z]] <- read_html(here::here("download/Newspapers/BBC/Draghi",str_c("BBD" ,z, ".html"))) %>%  
+    html_nodes(xpath = '//*[@id="main-content"]/div[5]/div/div[1]/article/div[2]/div/p/b') %>% 
+    html_text()
+  text[[z]] <- read_html(here::here("download/Newspapers/BBC/Draghi",str_c("BBD" ,z, ".html"))) %>% 
+    html_nodes(".e5tfeyi2 p") %>% 
+    html_text()
+}
+
+#as tibble
+BBCDraghi <- tibble(title, description, text)
+
+###########################################################################################################################################
+
+##BBC MONTI
+
+title <-vector(mode ="list", length = 5)
+description <-vector(mode ="list", length = 5)
+text <-vector(mode ="list", length = 5)
+
+for(z in 1:5){
+  title[[z]] <- read_html(here::here("download/Newspapers/BBC/Monti",str_c("BBM" ,z, ".html"))) %>% 
+    html_nodes("#main-heading") %>% 
+    html_text()
+  description[[z]] <- read_html(here::here("download/Newspapers/BBC/Monti",str_c("BBM" ,z, ".html"))) %>%  
+    html_nodes(xpath = '//*[@id="main-content"]/div[5]/div/div[1]/article/div[2]/div/p/b') %>% 
+    html_text() 
+  text[[z]] <- read_html(here::here("download/Newspapers/BBC/Monti",str_c("BBM" ,z, ".html"))) %>% 
+    html_nodes(".e5tfeyi2 p") %>% 
+    html_text()
+}
+
+#as tibble
+BBCMonti <- tibble(title, description, text)
+
+#####################################################################################################################
+
+#environment cleaning
+
+
+
  
