@@ -24,8 +24,6 @@ plottacont <- ggplot(contaplot, aes(x=reorder(trigger_for_technocracy,-count),y=
   ggtitle("Caretaking triggers") +
   scale_fill_manual(values = cols)
 
-plottacont
-
 ggplotly(plottacont)
 
 

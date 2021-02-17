@@ -174,6 +174,6 @@ BBCMonti <- tibble(title, description, text)
 
 #environment cleaning
 
-
+rm(contaplot,description,plottacont,tech_tabl4, tech_table2, techmap, techn, text, title, trigger_for_technocracy)
 
  
