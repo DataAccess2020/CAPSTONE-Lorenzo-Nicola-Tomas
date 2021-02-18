@@ -25,6 +25,7 @@ GD_corpus_FIN[[3]]$content
 
 
 
+
 #corpus Guardian Monti-------
 
 #remove links
@@ -106,4 +107,51 @@ LMM_corpus_FIN <- tm_map(LMM_NONSTOP, stripWhitespace)
 LMM_corpus_FIN[[3]]$content
 
 
+
+
+
+#corpus BBC DRAGHI-----
+#remove links
+BBCDraghi_NOURL <- rm_url(BBCDraghi)
+head(GuardianDraghi_NOURL, 5)
+
+BBD_NOSP <- gsub("[^A-Za-z]", " ", BBCDraghi_NOURL)
+
+#tm library to create corpus
+BBD_corpus <- BBD_NOSP %>%
+  VectorSource() %>%
+  Corpus()
+#character min
+BBD_min <- tm_map(BBD_corpus, tolower)
+
+#deleting stopwords
+
+BBD_NONSTOP <- tm_map(BBD_min, removeWords, stopwords('en'))
+
+BBD_corpus_FIN <- tm_map(BBD_NONSTOP, stripWhitespace)
+
+BBD_corpus_FIN[[3]]$content
+
+
+#corpus BBC MONTI-----
+#remove links
+BBCMonti_NOURL <- rm_url(BBCMonti)
+head(BBCMonti_NOURL, 5)
+
+BBM_NOSP <- gsub("[^A-Za-z]", " ", BBCMonti_NOURL)
+
+#tm library to create corpus
+BBM_corpus <- BBM_NOSP %>%
+  VectorSource() %>%
+  Corpus()
+#character min
+BBM_min <- tm_map(BBM_corpus, tolower)
+
+#deleting stopwords
+
+BBM_NONSTOP <- tm_map(BBM_min, removeWords, stopwords('en'))
+
+BBM_corpus_FIN <- tm_map(BBM_NONSTOP, stripWhitespace)
+
+BBM_corpus_FIN[[3]]$content
 
