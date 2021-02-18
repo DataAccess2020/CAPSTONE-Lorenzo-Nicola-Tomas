@@ -69,3 +69,5 @@ str_remove_all(regierungskrise$description, pattern = "\\\\n") %>%
 
 regierungskrise$text
 str_remove_all(regierungskrise$text, pattern = "\\\\n")
+
+
