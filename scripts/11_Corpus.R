@@ -155,9 +155,9 @@ BBM_corpus_FIN <- tm_map(BBM_NONSTOP, stripWhitespace)
 
 BBM_corpus_FIN[[3]]$content
 
+################
 
-
-rm(BBM_corpus, BBD_min, BBM_NONSTOP, BBM_NOSP,
+rm(BBM_corpus, BBM_min, BBM_NONSTOP, BBM_NOSP,
    BBD_corpus, BBD_min, BBD_NONSTOP, BBM_NOSP,
    LMM_corpus, LMM_min, LMM_NONSTOP, LMM_NOSP,
    LMD_corpus, LMD_min, LMD_NONSTOP, LMD_NOSP,
