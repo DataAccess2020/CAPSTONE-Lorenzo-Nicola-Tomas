@@ -371,3 +371,24 @@ ggplot(point.final, aes( x= sentiment , y = point, fill = sentiment )) +
   ylab("Score")+
   xlab("Sentiment/Emotion")+
   ggtitle("General Sentiment Analysis")
+
+###plotting frequent terms by Monti and Draghi
+
+############
+ggplot(Monti_freq, aes(x = reorder(WORD, -FREQ), y = FREQ)) +
+  geom_bar(stat = "identity", fill = "cadetblue3") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  xlab("Terms") + ylab("Freq")+ 
+  labs(title = "Frequent Terms in discourse by Monti")
+
+ggplot(Draghi_freq, aes(x = reorder(WORD, -FREQ), y = FREQ)) +
+  geom_bar(stat = "identity", fill = "darkblue") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  xlab("Terms") + ylab("Freq")+ 
+  labs(title = "Frequent Terms in discourse by Draghi")
+
+
+
+
+
+
