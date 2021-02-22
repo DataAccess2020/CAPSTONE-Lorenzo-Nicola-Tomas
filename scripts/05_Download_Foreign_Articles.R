@@ -34,7 +34,7 @@ links[[x]][1:20] <- links_df[1:20]
 #there are some more links into the sublist 9. In this sublist there are the links
 #contained into last page, 12 exactly, and 8 more links that are to others web pages
 #which ones we don't care. So, let's manually removed those useless links.
-links[[9]][13:20] <- NA
+links[[9]][16:20] <- NA
 links <- unlist(links)
 links <- na.omit(links)
 links
@@ -47,8 +47,9 @@ for (i in seq_along(links)) {
 title <- rep(list(vector(mode ="list", length = 20)), 9)
 description <- rep(list(vector(mode ="list", length = 20)), 9)
 text <- rep(list(vector(mode ="list", length = 20)), 9)
+date <- rep(list(vector(mode ="list", length = 20)), 9)
 
-for(z in 1:172){
+for(z in 1:174){
   title[[z]] <- read_html(here::here("download/Newspapers/Spiegel/articles",str_c("art" ,z, ".html"))) %>% 
     html_nodes(".sm\\:text-4xl") %>% 
     html_text()
@@ -58,16 +59,34 @@ for(z in 1:172){
   text[[z]] <- read_html(here::here("download/Newspapers/Spiegel/articles",str_c("art" ,z, ".html"))) %>% 
     html_nodes(".word-wrap") %>% 
     html_text()
+  date[[z]] <- read_html(here::here("download/Newspapers/Spiegel/articles",str_c("art" ,z, ".html"))) %>% 
+    html_nodes(".timeformat") %>% 
+    html_text()
 }
 
-regierungskrise <- tibble(title, description, text)
-str_remove_all(regierungskrise$title, pattern = "\\n")
+#there are three editorials which have the title into a different position, so they have been changed manually
+title[[36]] <- read_html(here::here("download/Newspapers/Spiegel/articles",str_c("art" ,36, ".html"))) %>% 
+  html_nodes(xpath ='//*[@id="Inhalt"]/article/header/div/div[2]/h2/span[2]/span') %>% 
+  html_text()
+title[[39]] <- read_html(here::here("download/Newspapers/Spiegel/articles",str_c("art" ,39, ".html"))) %>% 
+  html_nodes(xpath ='//*[@id="Inhalt"]/article/header/div/div[2]/h2/span[2]/span') %>% 
+  html_text()
+title[[40]] <- read_html(here::here("download/Newspapers/Spiegel/articles",str_c("art" ,40, ".html"))) %>% 
+  html_nodes(xpath ='//*[@id="Inhalt"]/article/header/div/div[2]/h2/span[2]/span') %>% 
+  html_text()
 
-regierungskrise$description
-str_remove_all(regierungskrise$description, pattern = "\\\\n") %>% 
-  str_remove_all(pattern = "\\\\")
 
-regierungskrise$text
-str_remove_all(regierungskrise$text, pattern = "\\\\n")
+links[[175]] <- NA
+links <- na.omit(links)
+
+regierungskrise <- tibble(title, description, text, date, links)
+regierungskrise$date <- dmy_hm(regierungskrise$date)
+str(regierungskrise$date)
+
+str_remove_all(regierungskrise$title, pattern = "\\\n")
+str_remove_all(regierungskrise$text, pattern = "c(\"\n")
+
+
+
 
 
