@@ -332,14 +332,7 @@ Draghi_Corpus <- tm_map(Draghi_NONSTOP, stripWhitespace)
 rm(Draghi_disco_Corpus, Draghi_min, Draghi_NONSTOP, Monti_disco_Corpus, Monti_min, Monti_NONSTOP)
 
 
-
-
-
-
-
-
-
-#ANALYSIS
+#ANALYSIS-----
 Monti_freq<-freq_terms(Monti_Corpus)
 Draghi_freq<-freq_terms(Draghi_Corpus)
 
