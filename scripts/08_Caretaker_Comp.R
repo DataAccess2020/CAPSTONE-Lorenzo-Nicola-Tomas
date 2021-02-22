@@ -1,4 +1,7 @@
 #TECH COMPARISON
+techn <- rio::import(here::here("dataset", "EU_Tech_Govs.csv"))
+percentage_table <- rio::import(here::here("dataset", "Percentage_EU_Tech_Gov.csv"))
+reforms <- rio::import(here::here("dataset", "Tech_gov_Economics.csv"))
 
 #caretakers reasons----
 

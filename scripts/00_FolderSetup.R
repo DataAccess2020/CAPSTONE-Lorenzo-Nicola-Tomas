@@ -22,5 +22,7 @@ library(kableExtra)
 library(plotly)
 library(tm)
 library(syuzhet)
-#library(rJava)
-#library(qdap)
+
+#run after a corpus has been created
+library(rJava)
+library(qdap)

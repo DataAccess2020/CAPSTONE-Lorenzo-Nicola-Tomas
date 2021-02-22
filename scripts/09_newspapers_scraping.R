@@ -2,7 +2,7 @@ library("RCurl")
 library("tidyverse")
 library("rvest")
 library("stringr")
-
+#NEWSPAPERS SCRAPING----
 ##guardian monti
 gm <- vector(mode= "list", length = 5)
 

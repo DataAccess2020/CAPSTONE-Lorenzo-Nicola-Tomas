@@ -1,4 +1,519 @@
-#Discorso Monti --------
+---
+title: "Quaderno"
+author: "Ruzza Tomas, Sioli Lorenzo, Destro Nicola"
+date: "2/22/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r }
+#LIBRARIES----
+library(tidyverse)
+library(tidytext)
+library(rio)
+library(stringr)
+library(xml2)
+library(httr)
+library(RCurl)
+library(quanteda)
+library(qdapRegex)
+library(rtweet)
+library(rvest)
+library(lubridate)
+library(scales)
+library(stargazer)
+library(kableExtra)
+library(plotly)
+library(tm)
+library(syuzhet)
+#GET DATA----
+cabinet_dataset <- rio::import(here::here("dataset/", "view_cabinet.csv"))  #importing dataset
+
+cabinet_ita <- filter(cabinet_dataset,
+                      country_name == "Italy") #filtering dataset
+
+#here::here("dataset", rio::export(cabinet_ita, "Gov_Ita.csv"))
+
+
+#For building 
+
+base_url <-"https://it.wikipedia.org"
+url2 <- "https://it.wikipedia.org/wiki/Governo_Parri"
+
+#Getting first link
+
+name_gov2 <- read_html(url2) %>% 
+  html_node("span+ span a") %>% 
+  html_attr("href")
+name_gov2
+#Getting all links
+
+government_list <- vector(mode = "list", length = 66) #empty vector  
+#2 to 66 'cause we already have the first link which will be put in his position
+#after the loop for praticity reasons
+
+for(i in 1:66){
+government_list[i] <- name_gov2 <- read_html(str_c(base_url,name_gov2)) %>% 
+            html_node("span+ span a") %>% 
+            html_attr("href")
+
+            Sys.sleep(1)
+}
+
+
+#Wikipedia gave us links that aren't usable to download the html files.
+#Let's build them and than download.
+
+#for(z in 1:66){government_list[[z]] <- paste0(base_url, government_list[[z]])}
+
+
+#for(y in 1:66){download.file(government_list[[y]], destfile = here::here("download/", str_c("page", y, ".html")))Sys.sleep(1)}
+
+#To take the dates of resignations for each government we do the same we already did
+#to get the links
+
+resignations <- vector(mode = "list", length = 66)
+
+for(it in 1:66){
+resignations[it ]<- read_html(here::here("download/Wikipedia", str_c("page", it, ".html"))) %>% 
+  html_node(".sinottico tr:nth-child(8) td") %>% 
+  html_text()
+}
+
+end_gov <- tibble(government_list, resignations)
+#here::here("dataset", rio::export(end_gov, "Resignations_date.csv"))
+
+url_length<- "https://it.wikipedia.org/wiki/Governi_italiani_per_durata"
+
+#download.file(url_length, destfile = here::here("download/", "GL.html"))
+
+gov_length<-read_html(here::here("download/Wikipedia", "GL.html")) %>% html_nodes(xpath = '//*[@id="mw-content-text"]/div[1]/div[3]/table')%>%
+  html_table(fill = TRUE)
+
+gov_length_df<-gov_length[[1]]
+
+#download.file("https://www.corriere.it/dataroom-milena-gabanelli/crisi-governo-66-esecutivi-75-anni-quanto-ci-costa-instabilita-politica-renzi-conte/4335b5f2-58d5-11eb-9753-e0ea6e647f4a-va.shtml", destfile = "report_corriere.html")
+
+#DATA MANAGMENT----
+#Removing errors and merging by ID
+
+ita_gov<-subset(cabinet_ita, prime_minister %in% 1)
+ita_govs<-subset(ita_gov, cabinet_name != "Dini II" & cabinet_name != "Letta II")
+
+ita_govs<-tibble::rowid_to_column(ita_govs, "ID")
+end_gov<-tibble::rowid_to_column(end_gov, "ID")
+
+ita_governments<- merge(ita_govs,end_gov,by="ID") 
+
+#removing useless variables
+
+govs_ita<- subset(ita_governments, select = -c(country_name_short, country_name, party_name_english,country_id, election_id, cabinet_id, previous_cabinet_id, party_id,left_right, party_name_short, cabinet_party,prime_minister))
+
+#managment dataframe: gov_lenght_ita
+#playing whith dates
+
+str(gov_length_df) #chech format variables
+
+annoying <- c(gov_length_df$`Data di termine[3]`)
+annoying
+gov_length_df$`Data di termine[3]` <- as.Date(annoying, format =  "%d %B %Y")
+
+gov_length_df <- subset(gov_length_df, select = -c(N.))
+
+gov_length_df <- gov_length_df[order(gov_length_df$`Data di termine[3]`), ]
+
+gov_length_df<-tibble::rowid_to_column(gov_length_df, "ID")
+
+data_frame <- merge(govs_ita,gov_length_df,by="ID") 
+
+data_frame <- subset(data_frame, select = -c(Governo, government_list, resignations, `Periodo di carica`))
+
+data_frame[data_frame$ID == 50, "caretaker"] <- 1 #Ciampi was a technical gov. 
+
+data_frame<-rename(data_frame, tot_days =`Giorni in carica[1]`, real_days = `Giorni effettivi[2]`,  end_date = `Data di termine[3]`)
+
+col_order <- c("ID", "cabinet_name", "start_date",
+               "end_date", "tot_days", "real_days", "party_name", "election_date", "seats", "election_seats_total", "caretaker")
+
+italy<- data_frame[, col_order]
+italy
+
+italy[italy$ID == 66, "tot_days"] <- 517
+is.numeric(italy$tot_days)
+italy$tot_days <- as.numeric(italy$tot_days)
+
+
+italy[italy$ID == 7 |italy$ID == 9 | italy$ID ==27|italy$ID ==35|italy$ID ==44, "real_days"] <- c(12,11,8,10,10)
+is.numeric(italy$real_days)
+italy$real_days <- as.numeric(italy$real_days)
+
+italy$start_date <- as.Date(italy$start_date)
+italy$election_date <- as.Date(italy$election_date)
+
+str(italy)
+
+italy$crisis_days <- italy$tot_days - italy$real_days
+
+col_order <- c("ID", "cabinet_name", "start_date",
+               "end_date", "tot_days", "real_days","crisis_days", "party_name", "election_date", "seats", "election_seats_total", "caretaker")
+
+italy<- italy[, col_order]
+italy
+
+#here::here("dataset", rio::export(italy, "Gov_Crisis_Italy.csv"))
+
+#deleting variable that are no longer useful
+
+
+#OUTCOMES----
+italy$outcomes <- 0
+italy[italy$ID == 1, "outcomes"]<-"First Gov"
+
+italy[italy$ID == 2 | italy$ID == 5 | italy$ID == 6 | italy$ID == 8 | italy$ID == 9 | italy$ID == 11 | italy$ID == 15 | 
+        italy$ID == 16 | italy$ID == 20 | italy$ID == 21 | italy$ID == 26 | italy$ID == 30 |italy$ID == 34 | italy$ID == 38 |
+        italy$ID == 40 | italy$ID == 41 |italy$ID == 43 | italy$ID == 46 | italy$ID == 47 |italy$ID == 55 |italy$ID == 58 | italy$ID == 63 | 
+        italy$ID == 64, "outcomes"] <- "Majority Confirmed"
+
+italy[italy$ID == 3 | italy$ID == 10 | italy$ID == 12 | italy$ID == 14 | italy$ID == 17 | 
+        italy$ID == 19 | italy$ID == 23 | italy$ID == 24 | italy$ID == 25 | italy$ID == 27 | italy$ID == 29 | italy$ID == 31 |
+        italy$ID == 32 | italy$ID == 35 | italy$ID == 37 | italy$ID == 39 |italy$ID == 44 |italy$ID == 48 |
+        italy$ID == 54 | italy$ID == 56 | italy$ID == 66, "outcomes"] <- "Majority Changed"
+
+italy[italy$ID == 7 | italy$ID == 13 | italy$ID == 18 | italy$ID == 22 | italy$ID == 42 | 
+        italy$ID == 49, "outcomes"] <- "End Legislature"
+
+italy[italy$ID == 28 | italy$ID == 33 | italy$ID == 36 | italy$ID == 45 | italy$ID == 51 | 
+        italy$ID == 53 | italy$ID == 57 | italy$ID == 59 | italy$ID == 60 | italy$ID == 62 |
+        italy$ID == 65, "outcomes"] <- "Early Election"
+
+italy[italy$ID == 50 | italy$ID == 52 | italy$ID == 61, "outcomes" ] <- "Technocratic Gov."
+
+italy[italy$ID == 4, "outcomes"] <- "Constitutional Referendum"
+
+
+
+
+#CARETAKER COMP----
+techn <- rio::import(here::here("dataset", "EU_Tech_Govs.csv"))
+percentage_table <- rio::import(here::here("dataset", "Percentage_EU_Tech_Gov.csv"))
+reforms <- rio::import(here::here("dataset", "Tech_gov_Economics.csv"))
+
+#caretakers reasons
+
+trigger_for_technocracy<- c("post-communism transition","post-communism transition", "global debt crisis","global debt crisis", "post-communism transition", "internal reasons", "internal reasons", "internal reasons", "internal reasons", "global debt crisis", "global debt crisis", "internal reasons", "internal reasons", "global debt crisis", "internal reasons", "internal reasons", "global debt crisis", "internal reasons", "internal reasons", "post-communism transition","post-communism transition","post-communism transition","post-communism transition","post-communism transition")
+trigger_for_technocracy<-as.data.frame(trigger_for_technocracy)
+
+techn<-arrange(techn,(state))
+
+trigger_for_technocracy<-tibble::rowid_to_column(trigger_for_technocracy, "ID")
+techn<-tibble::rowid_to_column(techn, "ID")
+techn_comp<-merge(trigger_for_technocracy, techn, by="ID")
+
+contaplot <- trigger_for_technocracy %>%
+  group_by(trigger_for_technocracy) %>%
+  summarise(count=n())
+
+cols <- c("internal reasons"="gold1","post-communism transition"="firebrick2", "global debt crisis"="dodgerblue2")
+
+plottacont <- ggplot(contaplot, aes(x=reorder(trigger_for_technocracy,-count),y=count, fill = trigger_for_technocracy)) +  
+  geom_bar(stat = "identity") +
+  xlab(" ") +
+  ylab(" ") +
+  ggtitle("Caretaking triggers") +
+  scale_fill_manual(values = cols)
+
+ggplotly(plottacont)
+#NEWSPAPERS SCRAPING----
+##guardian monti
+gm <- vector(mode= "list", length = 5)
+
+gm[1]<-"https://www.theguardian.com/business/blog/2012/may/30/mario-monti-italy-austerity"
+gm[2]<-"https://www.theguardian.com/business/2011/nov/29/euro-italy-insolvency-warning-finance-ministers"
+gm[3]<-"https://www.theguardian.com/world/2011/nov/13/mario-monti-new-era-italy"
+gm[4]<-"https://www.theguardian.com/world/2011/nov/11/markets-italy-applaud-mario-monti"
+gm[5]<-"https://www.theguardian.com/business/2011/nov/14/italy-borrowing-costs-highest-euro"
+
+#for (i in 1:5) { download.file(url = gm[[i]], destfile = str_c("GM", i, ".html"))}
+
+##GUARDIAN DRAGHI
+
+GD<-vector(mode = "list", length = 10)
+
+GD[1]<-"https://www.theguardian.com/world/2021/jan/14/italians-angry-and-perplexed-as-government-teeters"
+GD[2]<-"https://www.theguardian.com/world/2021/jan/18/conte-battles-for-his-coalitions-survival-over-covid-recovery-plan"
+GD[3]<-"https://www.theguardian.com/world/2021/jan/13/italy-facing-fresh-elections-after-ex-pm-withdraws-party-from-coalition"
+GD[4]<-"https://www.theguardian.com/world/2021/jan/04/italian-coalition-government-pressure-covid-economic-recovery-plan-giuseppe-conte-matteo-renzi"
+GD[5]<-"https://www.theguardian.com/world/2021/feb/13/mario-draghi-sworn-in-as-prime-minister-of-italy"
+GD[6]<-"https://www.theguardian.com/world/2021/feb/06/mario-draghi-secures-support-from-key-parties-to-form-new-italian-government"
+GD[7]<-"https://www.theguardian.com/world/2021/feb/02/italian-president-sergio-mattarella-to-seek-a-high-profile-government"
+GD[8]<-"https://www.theguardian.com/business/2021/feb/03/enter-the-draghi-can-super-mario-save-italy-as-he-did-the-euro"
+GD[9]<-"https://www.theguardian.com/commentisfree/2021/feb/04/the-guardian-view-on-mario-draghi-the-right-man-for-italy-for-now"
+GD[10]<-"https://www.theguardian.com/world/2021/feb/03/mario-draghi-accepts-mandate-to-form-new-italian-government"
+
+#for (i in 1:10) { download.file(url = GD[[i]], destfile = str_c("GD", i, ".html"))}
+##LEMONDE MONTI
+
+LMM<-vector(mode = "list", length = 5)
+
+LMM[1]<-"https://www.lemonde.fr/europe/article/2011/11/14/ave-mario_1603444_3214.html"
+LMM[2]<-"https://www.lemonde.fr/economie/article/2013/06/17/paul-krugman-et-mario-monti-la-crise-pousse-l-europe-vers-l-union-politique_3431386_3234.html"
+LMM[3]<-"https://www.lemonde.fr/europe/article/2011/11/14/l-arrivee-de-mario-monti-a-la-tete-du-gouvernement-italien-devrait-rassurer-les-marches_1603204_3214.html"
+LMM[4]<-"https://www.lemonde.fr/idees/article/2011/11/16/et-si-l-italie-de-mario-monti-sauvait-l-europe_1604498_3232.html"
+LMM[5]<-"https://www.lemonde.fr/europe/article/2011/11/16/mario-monti-forme-son-gouvernement-et-prend-le-portefeuille-de-l-economie_1604643_3214.html"
+
+#for (i in 1:5) { download.file(url = LMM[[i]], destfile = str_c("LMM", i, ".html"))}
+
+##LEMONDE DRAGHI
+
+LMD<-vector(mode = "list", length = 5)
+
+LMD[1]<-"https://www.lemonde.fr/idees/article/2021/02/06/mario-draghi-le-pari-politique-de-l-italie_6069013_3232.html"
+LMD[2]<-"https://www.lemonde.fr/international/article/2021/02/02/crise-politique-en-italie-mario-draghi-appele-a-la-rescousse_6068554_3210.html"
+LMD[3]<-"https://www.lemonde.fr/international/article/2021/02/13/italie-mario-draghi-prend-la-tete-d-un-gouvernement-qui-veut-concilier-cohesion-efficacite-et-representativite_6069817_3210.html"
+LMD[4]<-"https://www.lemonde.fr/international/article/2021/02/03/en-italie-sergio-mattarella-recourt-a-mario-draghi-pour-trouver-une-issue-a-la-crise-politique_6068625_3210.html"
+LMD[5]<-"https://www.lemonde.fr/idees/article/2019/03/04/mario-draghi-l-europe-la-souverainete-et-la-mondialisation_5431074_3232.html"
+
+#for (i in 1:5) { download.file(url = LMD[[i]], destfile = str_c("LMD", i, ".html"))}
+
+
+##BBC MONTI
+BBM <- vector(mode = "list", length = 5)
+
+BBM[1] <- "https://www.bbc.com/news/business-20766952"
+BBM[2] <- "https://www.bbc.com/news/world-europe-20658916"
+BBM[3] <- "http://www.bbc.co.uk/news/magazine-15720438"
+BBM[4] <- "https://www.bbc.com/news/magazine-15560015"
+BBM[5] <- "http://www.bbc.co.uk/news/world-europe-15650828"
+
+#for (i in 1:5) { download.file(url = BBM[[i]], destfile = str_c("BBM", i, ".html"))}
+##BBC DRAGHI
+BBD <- vector(mode = "list", length = 4)
+
+BBD[1] <- "https://www.bbc.com/news/world-europe-55912951"
+BBD[2] <-"https://www.bbc.com/news/world-europe-55992264"
+BBD[3] <-"https://www.bbc.com/news/world-europe-5591032"
+BBD[4] <-"https://www.bbc.com/news/world-europe-56049115"
+
+#for (i in 1:5) { download.file(url = BBD[[i]], destfile = str_c("BBD", i, ".html"))}
+
+
+
+#TIBBLES----
+##GUARDIAN MONTI
+
+title <-vector(mode ="list", length = 5)
+description <-vector(mode ="list", length = 5)
+text <-vector(mode ="list", length = 5)
+
+for(z in 1:5){
+  title[[z]] <- read_html(here::here("download/Newspapers/Guardian/Monti",str_c("GM" ,z, ".html"))) %>% 
+    html_nodes(".css-dxy9hs") %>% 
+    html_text()
+  description[[z]] <- read_html(here::here("download/Newspapers/Guardian/Monti",str_c("GM" ,z, ".html"))) %>%  
+    html_nodes(xpath = "/html/body/section[1]/div/div/div[5]/div/div") %>% 
+    html_text()
+  text[[z]] <- read_html(here::here("download/Newspapers/Guardian/Monti",str_c("GM" ,z, ".html"))) %>% 
+    html_nodes(".css-1ikqjzp") %>% 
+    html_text()
+}
+
+GuardianMonti <- tibble(title, description, text)
+
+##GUARDIAN DRAGHI
+
+title <- vector(mode ="list", length = 10)
+description <- vector(mode ="list", length = 10)
+text <- vector(mode ="list", length = 10)
+                                            
+for(z in 1:10){
+    title[[z]] <- read_html(here::here("download/Newspapers/Guardian/Draghi",str_c("GD" ,z, ".html"))) %>% 
+    html_nodes(".css-dxy9hs") %>% 
+    html_text()
+    description[[z]] <- read_html(here::here("download/Newspapers/Guardian/Draghi",str_c("GD" ,z, ".html"))) %>%  
+    html_nodes(xpath = "/html/body/section[1]/div/div/div[5]/div/div") %>% 
+    html_text()
+    text[[z]] <- read_html(here::here("download/Newspapers/Guardian/Draghi",str_c("GD" ,z, ".html"))) %>% 
+    html_nodes(".css-1ikqjzp") %>% 
+    html_text()
+                                  }
+
+##fixing n2
+description[[2]]<-read_html("https://www.theguardian.com/world/2021/jan/18/conte-battles-for-his-coalitions-survival-over-covid-recovery-plan")%>%
+                   html_nodes(xpath= "/html/body/section[1]/div/div/div[5]/div/div/p")%>% html_text()
+
+text[[2]]<-read_html("https://www.theguardian.com/world/2021/jan/18/conte-battles-for-his-coalitions-survival-over-covid-recovery-plan")%>%
+  html_nodes(xpath = "/html/body/section[1]/div/div/div[9]")%>% html_text()
+
+title[[2]]<-read_html("https://www.theguardian.com/world/2021/jan/18/conte-battles-for-his-coalitions-survival-over-covid-recovery-plan")%>%
+  html_nodes(css = ".css-13n7o1j")%>% html_text()
+
+##fixing n7
+description[[7]]<-read_html("https://www.theguardian.com/world/2021/feb/02/italian-president-sergio-mattarella-to-seek-a-high-profile-government")%>%
+  html_nodes(xpath= "/html/body/section[1]/div/div/div[5]/div/div/p")%>% html_text()
+
+text[[7]]<-read_html("https://www.theguardian.com/world/2021/feb/02/italian-president-sergio-mattarella-to-seek-a-high-profile-government")%>%
+  html_nodes(xpath = "/html/body/section[1]/div/div/div[9]")%>% html_text()
+
+title[[7]]<-read_html("https://www.theguardian.com/world/2021/feb/02/italian-president-sergio-mattarella-to-seek-a-high-profile-government")%>%
+  html_nodes(css = ".css-13n7o1j")%>% html_text()
+
+
+##fixing n9
+
+title[[9]]<-read_html("https://www.theguardian.com/commentisfree/2021/feb/04/the-guardian-view-on-mario-draghi-the-right-man-for-italy-for-now")%>%
+  html_nodes(css = ".css-i6hzzh")%>% html_text()
+
+##as tibble
+GuardianDraghi <- tibble(title, description, text)
+
+##LEMONDE MONTI
+title <-vector(mode ="list", length = 5)
+description <-vector(mode ="list", length = 5)
+text <-vector(mode ="list", length = 5)
+
+for(z in 1:5){
+  title[[z]] <- read_html(here::here("download/Newspapers/LeMonde/Monti",str_c("LMM" ,z, ".html"))) %>% 
+    html_nodes(xpath = '//*[@id="habillagepub"]/section/header/div/div/h1') %>% 
+    html_text()
+  description[[z]] <- read_html(here::here("download/Newspapers/LeMonde/Monti",str_c("LMM" ,z, ".html"))) %>%  
+    html_nodes(".article__desc") %>% 
+    html_text()
+  text[[z]] <- read_html(here::here("download/Newspapers/LeMonde/Monti",str_c("LMM" ,z, ".html"))) %>% 
+    html_nodes(".article__paragraph") %>% 
+    html_text()
+}
+
+#fixing n4
+title[[4]]<-read_html("https://www.lemonde.fr/idees/article/2011/11/16/et-si-l-italie-de-mario-monti-sauvait-l-europe_1604498_3232.html")%>%
+  html_nodes(css = ".article__title--opinion")%>% html_text()
+
+#as tibble
+LeMondeMonti <- tibble(title, description, text)
+
+#########################################################################################################################################################à
+
+##LEMONDE DRAGHI
+title <-vector(mode ="list", length = 5)
+description <-vector(mode ="list", length = 5)
+text <-vector(mode ="list", length = 5)
+
+for(z in 1:5){
+  title[[z]] <- read_html(here::here("download/Newspapers/LeMonde/Draghi",str_c("LMD" ,z, ".html"))) %>% 
+    html_nodes(xpath = '//*[@id="habillagepub"]/section/header/div/div/h1') %>% 
+    html_text()
+  description[[z]] <- read_html(here::here("download/Newspapers/LeMonde/Draghi",str_c("LMD" ,z, ".html"))) %>%  
+    html_nodes(".article__desc") %>% 
+    html_text()
+  text[[z]] <- read_html(here::here("download/Newspapers/LeMonde/Draghi",str_c("LMD" ,z, ".html"))) %>% 
+    html_nodes(".article__paragraph") %>% 
+    html_text()
+}
+
+
+
+#fixing n1
+title[[1]]<-read_html("https://www.lemonde.fr/idees/article/2021/02/06/mario-draghi-le-pari-politique-de-l-italie_6069013_3232.html"
+)%>%
+  html_nodes(css = ".article__title--opinion")%>% html_text()
+#fixing n5
+title[[5]]<-read_html("https://www.lemonde.fr/idees/article/2019/03/04/mario-draghi-l-europe-la-souverainete-et-la-mondialisation_5431074_3232.html")%>%
+  html_nodes(xpath = '//*[@id="Longform"]/section[2]/h1')%>% html_text()
+
+#as tibble
+LeMondeDraghi <- tibble(title, description, text)
+
+#########################################################################################################################################################################à
+
+
+##BBC DRAGHI
+
+title <-vector(mode ="list", length = 5)
+description <-vector(mode ="list", length = 5)
+text <-vector(mode ="list", length = 5)
+
+for(z in 1:5){
+  title[[z]] <- read_html(here::here("download/Newspapers/BBC/Draghi",str_c("BBD" ,z, ".html"))) %>% 
+    html_nodes("#main-heading") %>% 
+    html_text()
+  description[[z]] <- read_html(here::here("download/Newspapers/BBC/Draghi",str_c("BBD" ,z, ".html"))) %>%  
+    html_nodes(xpath = '//*[@id="main-content"]/div[5]/div/div[1]/article/div[2]/div/p/b') %>% 
+    html_text()
+  text[[z]] <- read_html(here::here("download/Newspapers/BBC/Draghi",str_c("BBD" ,z, ".html"))) %>% 
+    html_nodes(".e5tfeyi2 p") %>% 
+    html_text()
+}
+
+#as tibble
+BBCDraghi <- tibble(title, description, text)
+
+
+
+##BBC MONTI
+
+title <-vector(mode ="list", length = 5)
+description <-vector(mode ="list", length = 5)
+text <-vector(mode ="list", length = 5)
+
+for(z in 1:5){
+  title[[z]] <- read_html(here::here("download/Newspapers/BBC/Monti",str_c("BBM" ,z, ".html"))) %>% 
+    html_nodes("#main-heading") %>% 
+    html_text()
+  description[[z]] <- read_html(here::here("download/Newspapers/BBC/Monti",str_c("BBM" ,z, ".html"))) %>%  
+    html_nodes(xpath = '//*[@id="main-content"]/div[5]/div/div[1]/article/div[2]/div/p/b') %>% 
+    html_text() 
+  text[[z]] <- read_html(here::here("download/Newspapers/BBC/Monti",str_c("BBM" ,z, ".html"))) %>% 
+    html_nodes(".e5tfeyi2 p") %>% 
+    html_text()
+}
+
+#as tibble
+BBCMonti <- tibble(title, description, text)
+
+#NEWSPAPERS SENTIMENT ANALYSIS-----
+###create a tibble with all newspaper articles
+newspapers<-bind_rows(GuardianDraghi,GuardianMonti,BBCMonti,BBCDraghi, ID = NULL)
+
+newspapers_clean<-newspapers[-c(19,20,23,24,25), ]
+
+rm(newspapers,LeMondeDraghi, LeMondeMonti, LMD_corpus_FIN, LMM_corpus_FIN, GD_corpus_FIN, GM_corpus_FIN, BBM_corpus_FIN, BBD_corpus_FIN)
+#remove links
+news_NOURL <- rm_url(newspapers_clean$text)
+head(news_NOURL, 5)
+
+news_NOSP <- gsub("[^A-Za-z]", " ", news_NOURL)
+#tm library to create corpus
+news_corpus <- news_NOSP %>%
+  VectorSource() %>%
+  Corpus()
+#character min
+news_min <- tm_map(news_corpus, tolower)
+#deleting stopwords
+stopwords('en') #list of stop words
+news_NONSTOP <- tm_map(news_min, removeWords, stopwords('en'))
+news_corpus_FIN <- tm_map(news_NONSTOP, stripWhitespace)
+news_corpus_FIN[[3]]$content
+
+rm(news_NONSTOP, news_min, news_corpus, news_NOSP, news_NOURL)
+
+##putting text as character
+newspapers_clean<-as.character(newspapers_clean$text)
+sentiments_level<-get_nrc_sentiment(newspapers_clean)
+  
+####
+point <- colSums(sentiments_level[,])
+point.df <- data.frame(point)
+point.final <- cbind(sentiment = row.names(point.df), point.df)
+ggplot(point.final, aes( x= sentiment , y = point, fill = sentiment )) +
+  geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 45, hjust=1)) + 
+  ylab("Score")+
+  xlab("Sentiment/Emotion")+
+  ggtitle("General Sentiment Analysis")
+ 
+#DISCOURSE ANALYSIS----
+
 Monti_disco<-c("Signor Presidente, onorevoli senatrici, onorevoli senatori, è con grande emozione che mi rivolgo a voi come primo atto del percorso rivolto ad ottenere la fiducia del Parlamento al Governo ieri costituito.
 'emozione è accresciuta dal fatto che prendo oggi la parola per la prima volta in questa Aula nella quale mi avete riservato qualche giorno fa un'accoglienza che mi ha commosso. Sono onorato di entrare a far parte del Senato della Repubblica. Desidero rivolgere un saluto deferente al Capo dello Stato, presidente Napolitano che con grande saggezza, perizia e senso dello Stato ha saputo risolvere una situazione difficile in tempi ristrettissimi nell'interesse del Paese e di tutti i cittadini.
 
@@ -140,7 +655,7 @@ La gravità della situazione attuale richiede una risposta pronta e decisa nella
  
 Il tentativo che ci proponiamo di compiere, onorevoli senatori, e che vi chiedo di sostenere è difficilissimo; altrimenti ho il sospetto che non mi troverei qui oggi. I margini di successo sono tanto più ridotti, come ha rilevato il Presidente della Repubblica, dopo anni di contrapposizione e di scontri nella politica nazionale. Se sapremo cogliere insieme questa opportunità per avviare un confronto costruttivo su scelte e obiettivi di fondo avremo occasione di riscattare il Paese e potremo ristabilire la fiducia nelle sue istituzioni. Vi ringrazio.")
 
-#Discorso Draghi----
+
 Draghi_disco<-c("Il primo pensiero che vorrei condividere, nel chiedere la vostra fiducia, riguarda la nostra responsabilità nazionale. Il principale dovere cui siamo chiamati, tutti, io per primo come presidente del Consiglio, è di combattere con ogni mezzo la pandemia e di salvaguardare le vite dei nostri concittadini. Una trincea dove combattiamo tutti insieme. Il virus è nemico di tutti. Ed è nel commosso ricordo di chi non c'è più che cresce il nostro impegno. Prima di illustrarvi il mio programma, vorrei rivolgere un altro pensiero, partecipato e solidale, a tutti coloro che soffrono per la crisi economica che la pandemia ha scatenato, a coloro che lavorano nelle attività più colpite o fermate per motivi sanitari. Conosciamo le loro ragioni, siamo consci del loro enorme sacrificio e li ringraziamo. Ci impegniamo a fare di tutto perché possano tornare, nel più breve tempo possibile, nel riconoscimento dei loro diritti, alla normalità delle loro occupazioni. Ci impegniamo a informare i cittadini con sufficiente anticipo, per quanto compatibile con la rapida evoluzione della pandemia, di ogni cambiamento nelle regole.
 l Governo farà le riforme ma affronterà anche l'emergenza. Non esiste un prima e un dopo. Siamo consci dell'insegnamento di Cavour:... le riforme compiute a tempo, invece di indebolire l'autorità, la rafforzano. Ma nel frattempo dobbiamo occuparci di chi soffre adesso, di chi oggi perde il lavoro o è costretto a chiudere la propria attività.
 
@@ -308,7 +823,7 @@ Insieme al Regno Unito - con cui quest'anno abbiamo le Presidenze parallele del 
 Questo è il terzo governo della legislatura. Non c'è nulla che faccia pensare che possa far bene senza il sostegno convinto di questo Parlamento. E' un sostegno che non poggia su alchimie politiche ma sullo spirito di sacrificio con cui donne e uomini hanno affrontato l'ultimo anno, sul loro vibrante desiderio di rinascere, di tornare più forti e sull'entusiasmo dei giovani che vogliono un paese capace di realizzare i loro sogni. Oggi, l'unità non è un'opzione, l'unità è un dovere. Ma è un dovere guidato da ciò che son certo ci unisce tutti: l'amore per l'Italia.")
 
 
-#tm library to create corpuses----
+#tm library to create corpuses
 Monti_disco_Corpus<- Monti_disco %>%
   VectorSource() %>%
   Corpus()
@@ -332,7 +847,7 @@ Draghi_Corpus <- tm_map(Draghi_NONSTOP, stripWhitespace)
 rm(Draghi_disco_Corpus, Draghi_min, Draghi_NONSTOP, Monti_disco_Corpus, Monti_min, Monti_NONSTOP)
 
 
-#ANALYSIS-----
+
 Monti_freq<-freq_terms(Monti_Corpus)
 Draghi_freq<-freq_terms(Draghi_Corpus)
 
@@ -365,7 +880,7 @@ ggplot(draghi_melted, aes( x= variable , y = value, fill = variable )) +
 ###plotting frequent terms by Monti and Draghi
 
 
-############
+
 ggplot(Monti_freq, aes(x = reorder(WORD, -FREQ), y = FREQ)) +
   geom_bar(stat = "identity", fill = "cadetblue3") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
@@ -381,5 +896,9 @@ ggplot(Draghi_freq, aes(x = reorder(WORD, -FREQ), y = FREQ)) +
 
 
 
+
+
+
+```
 
 
