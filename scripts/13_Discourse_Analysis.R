@@ -346,31 +346,28 @@ Draghi_freq<-freq_terms(Draghi_Corpus)
 
 #Sentiment Hypotesis 
 Monti_disco<-as.character(Monti_disco)
-Monti_disco<-get_sentiment(Monti_disco, method="nrc", lang= "italian")
+Monti_score<-get_nrc_sentiment(Monti_disco, lang= "italian")
+monti_melted <- reshape2::melt(Monti_score)
 
 Draghi_disco<-as.character(Draghi_disco)
-Draghi_disco<-get_sentiment(Draghi_disco, method="nrc", lang="italian")
+Draghi_score<-get_nrc_sentiment(Draghi_disco, lang="italian")
+draghi_melted <- reshape2::melt(Draghi_score)
 
+####Plot MONTI
 
-####MAH MONTI
-point <- colSums(Monti_disco[,])
-point.df <- data.frame(point)
-point.final <- cbind(sentiment = row.names(point.df), point.df)
-ggplot(point.final, aes( x= sentiment , y = point, fill = sentiment )) +
+ggplot(monti_melted, aes( x= variable , y = value, fill = variable )) +
   geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 45, hjust=1)) + 
   ylab("Score")+
   xlab("Sentiment/Emotion")+
-  ggtitle("General Sentiment Analysis")
+  ggtitle("Sentiment Analysis Monti")
 
-###MAH DRAGHI
-point <- colSums(Draghi_disco[,])
-point.df <- data.frame(point)
-point.final <- cbind(sentiment = row.names(point.df), point.df)
-ggplot(point.final, aes( x= sentiment , y = point, fill = sentiment )) +
+###Plot DRAGHI
+
+ggplot(draghi_melted, aes( x= variable , y = value, fill = variable )) +
   geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 45, hjust=1)) + 
   ylab("Score")+
   xlab("Sentiment/Emotion")+
-  ggtitle("General Sentiment Analysis")
+  ggtitle("Sentiment Analysis Draghi")
 
 ###plotting frequent terms by Monti and Draghi
 
