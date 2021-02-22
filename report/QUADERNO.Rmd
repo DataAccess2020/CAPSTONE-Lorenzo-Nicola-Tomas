@@ -6,10 +6,10 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.align = 'center', results = 'hide', out.extra = 'center')
 ```
 
-```{r }
+```{r libraries}
 #LIBRARIES----
 library(tidyverse)
 library(tidytext)
@@ -29,8 +29,12 @@ library(kableExtra)
 library(plotly)
 library(tm)
 library(syuzhet)
-#GET DATA----
-cabinet_dataset <- rio::import(here::here("dataset/", "view_cabinet.csv"))  #importing dataset
+```
+
+```{r get_data }
+#GET DATA
+#importing dataset----
+cabinet_dataset <- rio::import(here::here("dataset/", "view_cabinet.csv"))  
 
 cabinet_ita <- filter(cabinet_dataset,
                       country_name == "Italy") #filtering dataset
@@ -38,7 +42,7 @@ cabinet_ita <- filter(cabinet_dataset,
 #here::here("dataset", rio::export(cabinet_ita, "Gov_Ita.csv"))
 
 
-#For building 
+#Getting urls----
 
 base_url <-"https://it.wikipedia.org"
 url2 <- "https://it.wikipedia.org/wiki/Governo_Parri"
@@ -54,16 +58,16 @@ name_gov2
 government_list <- vector(mode = "list", length = 66) #empty vector  
 #2 to 66 'cause we already have the first link which will be put in his position
 #after the loop for praticity reasons
+#for loop building----
+#for(i in 1:66){
+#government_list[i] <- name_gov2 <- read_html(str_c(base_url,name_gov2)) %>% 
+#            html_node("span+ span a") %>% 
+#            html_attr("href")
+#
+#            Sys.sleep(1)
+#}
 
-for(i in 1:66){
-government_list[i] <- name_gov2 <- read_html(str_c(base_url,name_gov2)) %>% 
-            html_node("span+ span a") %>% 
-            html_attr("href")
-
-            Sys.sleep(1)
-}
-
-
+#download files(commented)----
 #Wikipedia gave us links that aren't usable to download the html files.
 #Let's build them and than download.
 
@@ -74,7 +78,7 @@ government_list[i] <- name_gov2 <- read_html(str_c(base_url,name_gov2)) %>%
 
 #To take the dates of resignations for each government we do the same we already did
 #to get the links
-
+#dimissions----
 resignations <- vector(mode = "list", length = 66)
 
 for(it in 1:66){
@@ -95,9 +99,12 @@ gov_length<-read_html(here::here("download/Wikipedia", "GL.html")) %>% html_node
 
 gov_length_df<-gov_length[[1]]
 
-#download.file("https://www.corriere.it/dataroom-milena-gabanelli/crisi-governo-66-esecutivi-75-anni-quanto-ci-costa-instabilita-politica-renzi-conte/4335b5f2-58d5-11eb-9753-e0ea6e647f4a-va.shtml", destfile = "report_corriere.html")
 
-#DATA MANAGMENT----
+```
+
+```{r data_managment}
+#DATA MANAGMENT
+#fix errors----
 #Removing errors and merging by ID
 
 ita_gov<-subset(cabinet_ita, prime_minister %in% 1)
@@ -112,7 +119,7 @@ ita_governments<- merge(ita_govs,end_gov,by="ID")
 
 govs_ita<- subset(ita_governments, select = -c(country_name_short, country_name, party_name_english,country_id, election_id, cabinet_id, previous_cabinet_id, party_id,left_right, party_name_short, cabinet_party,prime_minister))
 
-#managment dataframe: gov_lenght_ita
+#managment dataframe: gov_lenght_ita ----
 #playing whith dates
 
 str(gov_length_df) #chech format variables
@@ -168,7 +175,8 @@ italy
 #deleting variable that are no longer useful
 
 
-#OUTCOMES----
+
+#OUTCOMES (02.1)----
 italy$outcomes <- 0
 italy[italy$ID == 1, "outcomes"]<-"First Gov"
 
@@ -196,22 +204,177 @@ italy[italy$ID == 4, "outcomes"] <- "Constitutional Referendum"
 
 
 
-#CARETAKER COMP----
+
+
+```
+
+```{r visual_analysis}
+#summaries----
+summary(italy$tot_days)
+
+summary(italy$real_days)
+
+summary(italy$crisis_days)
+
+sum(italy$crisis_days)
+
+stargazer(italy$tot_days, type = 'latex')
+#piechart----
+conta <- count(italy, outcomes) 
+conta
+
+dev.off()
+
+# Basic piechart
+ggplot(conta, aes(x="", y=n, fill=outcomes)) +
+  geom_bar(stat="identity", color="white") +
+  coord_polar("y", start=0) +
+  theme_void() # remove background, grid, numeric labels
+
+
+```
+
+```{r plot_visual_analysis_1, results = TRUE}
+#Time line days plot----
+
+time_line2 <- ggplot(italy, aes(x = start_date, y = real_days)) +
+  geom_line(color = "orange") + 
+  geom_point(color = "black") +
+  scale_y_continuous() +
+  ggtitle("Government duration during years")+
+  ylab("Real days") +
+  xlab("Date") + 
+  theme_bw() +
+  theme(legend.position = "bottom")
+ggplotly(time_line2)  
+
+```
+
+```{r plot_visual_analysis_2, results = TRUE}
+#Crisis Days plot----
+g1 <- ggplot(italy, aes(x = ID, y = crisis_days)) +
+    geom_bar(stat = "identity", fill = "darkblue") +
+    scale_y_continuous() +
+    ggtitle("Crisis days")+
+    ylab("Days") +
+    xlab("")+
+    theme_bw()+
+    theme(legend.position = "bottom")
+
+
+points_to_label <- c("Dini I", "Monti", "Andreotti V", "Andreotti I", "Ciampi", "Gentiloni")
+
+g2 <- g1 + 
+  geom_text(aes(ID,  crisis_days, label = cabinet_name), data = italy[italy$cabinet_name %in% points_to_label, ]) 
+
+ggplotly(g2)  
+
+```
+
+```{r timeline}
+#TIMELINE----
+
+outcomes_levels <- c("First Gov", "Majority Confirmed", "Majority Changed", "Constitutional Referendum", "Early Election", "End Legislature", "Technocratic Gov.")
+outcomes_colors <- c("#0070C0", "#00ff00", "#C00000", "#FFC000", "#708090", "#ff7f50", "#000000")
+
+italy$outcomes <- factor(italy$outcomes, levels=outcomes_levels, ordered=TRUE)
+
+positions <- c(0.5, -0.5, 1.0, -1.0, 1.5, -1.5)
+directions <- c(1, -1)
+
+line_pos <- data.frame(
+  "start_date"=unique(italy$start_date),
+  "position"=rep(positions, length.out=length(unique(italy$start_date))),
+  "direction"=rep(directions, length.out=length(unique(italy$start_date)))
+)
+
+ita <- merge(x=italy, y=line_pos, by= "start_date", all = TRUE)
+ita <- ita[with(ita, order(start_date, outcomes)), ]
+
+head(ita)
+
+
+
+text_offset <- 0.05
+
+ita$year_count <- ave(ita$start_date==ita$start_date, ita$start_date, FUN=cumsum)
+ita$text_position <- (ita$year_count * text_offset * ita$direction) + ita$position
+head(ita)
+
+year_buffer <- 1
+
+year_date_range <- seq(min(ita$start_date) - years(year_buffer), max(ita$start_date) + years(year_buffer), by='year')
+year_format <- format(year_date_range, '%y')
+year_df <- data.frame(year_date_range, year_format)
+
+#PLOT
+
+timeline_plot<-ggplot(ita,aes(x=start_date,y=0, col=outcomes, label= cabinet_name))
+timeline_plot<-timeline_plot+labs(col="outcomes")
+timeline_plot<-timeline_plot+scale_color_manual(values=outcomes_colors, labels=outcomes_levels, drop = FALSE)
+timeline_plot<-timeline_plot+theme_classic()
+
+# Plot horizontal black line for timeline
+timeline_plot<-timeline_plot+geom_hline(yintercept=0, 
+                                        color = "black", size=0.3)
+
+# Plot vertical segment lines for milestones
+timeline_plot<-timeline_plot+geom_segment(data=ita[ita$year_count == 1,], aes(y=position,yend=0,xend=start_date), color='black', size=0.2)
+
+# Plot scatter points at zero and date
+timeline_plot<-timeline_plot+geom_point(aes(y=0), size=3) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+# Don't show axes, appropriately position legend
+timeline_plot<-timeline_plot+theme(axis.line.y=element_blank(),
+                                   axis.text.y=element_blank(),
+                                   axis.title.x=element_blank(),
+                                   axis.title.y=element_blank(),
+                                   axis.ticks.y=element_blank(),
+                                   axis.text.x =element_blank(),
+                                   axis.ticks.x =element_blank(),
+                                   axis.line.x =element_blank(),
+                                   legend.position = "bottom"
+)
+
+# Show text for each year
+timeline_plot<-timeline_plot+geom_text(data=year_df, aes(x=year_date_range,y=-0.1,label=year_format),size=2.5,vjust=0.5, color='black', angle=90)
+
+# Show text for each cabinet
+timeline_plot<-timeline_plot+
+  geom_text(aes(y=text_position,label=cabinet_name),size=2.5)+
+  theme(legend.position = "bottom")
+
+```
+
+```{r plot_timeline, results = TRUE, fig.width = 10}
+print(timeline_plot)
+#ggplotly(timeline_plot)
+
+
+```
+
+```{r caretaker_comp}
+#CARETAKER COMP
+#import dataset----
+#following datasets have been scaped and exported into CSV files in script 04
 techn <- rio::import(here::here("dataset", "EU_Tech_Govs.csv"))
 percentage_table <- rio::import(here::here("dataset", "Percentage_EU_Tech_Gov.csv"))
 reforms <- rio::import(here::here("dataset", "Tech_gov_Economics.csv"))
 
-#caretakers reasons
+#triggers setting----
 
 trigger_for_technocracy<- c("post-communism transition","post-communism transition", "global debt crisis","global debt crisis", "post-communism transition", "internal reasons", "internal reasons", "internal reasons", "internal reasons", "global debt crisis", "global debt crisis", "internal reasons", "internal reasons", "global debt crisis", "internal reasons", "internal reasons", "global debt crisis", "internal reasons", "internal reasons", "post-communism transition","post-communism transition","post-communism transition","post-communism transition","post-communism transition")
 trigger_for_technocracy<-as.data.frame(trigger_for_technocracy)
 
+#merging datasets----
 techn<-arrange(techn,(state))
 
 trigger_for_technocracy<-tibble::rowid_to_column(trigger_for_technocracy, "ID")
 techn<-tibble::rowid_to_column(techn, "ID")
 techn_comp<-merge(trigger_for_technocracy, techn, by="ID")
 
+#plot----
 contaplot <- trigger_for_technocracy %>%
   group_by(trigger_for_technocracy) %>%
   summarise(count=n())
@@ -223,9 +386,53 @@ plottacont <- ggplot(contaplot, aes(x=reorder(trigger_for_technocracy,-count),y=
   xlab(" ") +
   ylab(" ") +
   ggtitle("Caretaking triggers") +
-  scale_fill_manual(values = cols)
+  scale_fill_manual(values = cols)+
+    theme(legend.position = "bottom")
 
 ggplotly(plottacont)
+
+```
+
+```{r map}
+#libraries----
+library(ggmap)
+library(mapdata)
+library(maptools)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(rgeos)
+#import coords dataset----
+capmap<-read.csv(here::here ("dataset", "concap.csv"))
+capmap<-dplyr::filter(capmap, capmap$ContinentName == "Europe")
+capmap<- dplyr::rename(capmap, state = CountryName)
+
+techmap<-merge(capmap, techn, by = "state")
+
+#europe map-----
+
+world <- ne_countries(scale = "medium", returnclass = "sf")
+Europe <- world[which(world$continent == "Europe"),]
+EU<-ggplot(Europe) +
+  geom_sf() +
+  coord_sf(xlim = c(-25,50), ylim = c(35,70), expand = FALSE)
+
+N<-c(3,3,3,2,2,3,3,3,5,5,5,5,5,1,3,3,3,2,2,5,5,5,5,5)
+N<-as.data.frame(N)
+N<-tibble::rowid_to_column(N, "ID")
+#techmap<-tibble::rowid_to_column(techmap, "ID")
+techmap_n<- merge.data.frame(N, techmap, by= "ID")
+
+```
+
+```{r plot_map, results = TRUE}
+#map design----
+Map1<-EU + geom_point(aes(x = CapitalLongitude, y = CapitalLatitude, label=state, label2 = N, label3 =tot_days), data = techmap_n, size = 2.5, color="red") + 
+  theme(axis.text.x = element_blank(), axis.text.y = element_blank()) + ylab("") + xlab("")
+ggplotly(Map1)
+
+```
+
+```{r np_scraping}
 #NEWSPAPERS SCRAPING----
 ##guardian monti
 gm <- vector(mode= "list", length = 5)
@@ -301,7 +508,11 @@ BBD[4] <-"https://www.bbc.com/news/world-europe-56049115"
 
 
 
-#TIBBLES----
+
+```
+
+```{r np_tibbles}
+#NEWSPAPERS' TIBBLES CREATION----
 ##GUARDIAN MONTI
 
 title <-vector(mode ="list", length = 5)
@@ -393,7 +604,6 @@ title[[4]]<-read_html("https://www.lemonde.fr/idees/article/2011/11/16/et-si-l-i
 #as tibble
 LeMondeMonti <- tibble(title, description, text)
 
-#########################################################################################################################################################à
 
 ##LEMONDE DRAGHI
 title <-vector(mode ="list", length = 5)
@@ -425,16 +635,13 @@ title[[5]]<-read_html("https://www.lemonde.fr/idees/article/2019/03/04/mario-dra
 #as tibble
 LeMondeDraghi <- tibble(title, description, text)
 
-#########################################################################################################################################################################à
-
-
 ##BBC DRAGHI
 
 title <-vector(mode ="list", length = 5)
 description <-vector(mode ="list", length = 5)
 text <-vector(mode ="list", length = 5)
 
-for(z in 1:5){
+for(z in 1:2){
   title[[z]] <- read_html(here::here("download/Newspapers/BBC/Draghi",str_c("BBD" ,z, ".html"))) %>% 
     html_nodes("#main-heading") %>% 
     html_text()
@@ -457,7 +664,7 @@ title <-vector(mode ="list", length = 5)
 description <-vector(mode ="list", length = 5)
 text <-vector(mode ="list", length = 5)
 
-for(z in 1:5){
+for(z in 1:3){
   title[[z]] <- read_html(here::here("download/Newspapers/BBC/Monti",str_c("BBM" ,z, ".html"))) %>% 
     html_nodes("#main-heading") %>% 
     html_text()
@@ -472,6 +679,10 @@ for(z in 1:5){
 #as tibble
 BBCMonti <- tibble(title, description, text)
 
+
+```
+
+```{r np_sentiment}
 #NEWSPAPERS SENTIMENT ANALYSIS-----
 ###create a tibble with all newspaper articles
 newspapers<-bind_rows(GuardianDraghi,GuardianMonti,BBCMonti,BBCDraghi, ID = NULL)
@@ -506,14 +717,21 @@ sentiments_level<-get_nrc_sentiment(newspapers_clean)
 point <- colSums(sentiments_level[,])
 point.df <- data.frame(point)
 point.final <- cbind(sentiment = row.names(point.df), point.df)
+```
+
+```{r plot_np_sentiment, results = TRUE}
 ggplot(point.final, aes( x= sentiment , y = point, fill = sentiment )) +
   geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 45, hjust=1)) + 
   ylab("Score")+
   xlab("Sentiment/Emotion")+
-  ggtitle("General Sentiment Analysis")
+  ggtitle("General Sentiment Analysis")+
+    theme(legend.position = "bottom")
  
-#DISCOURSE ANALYSIS----
+```
 
+```{r m_vs_d}
+#DISCOURSE ANALYSIS
+#Draghi's and Monti's texts----
 Monti_disco<-c("Signor Presidente, onorevoli senatrici, onorevoli senatori, è con grande emozione che mi rivolgo a voi come primo atto del percorso rivolto ad ottenere la fiducia del Parlamento al Governo ieri costituito.
 'emozione è accresciuta dal fatto che prendo oggi la parola per la prima volta in questa Aula nella quale mi avete riservato qualche giorno fa un'accoglienza che mi ha commosso. Sono onorato di entrare a far parte del Senato della Repubblica. Desidero rivolgere un saluto deferente al Capo dello Stato, presidente Napolitano che con grande saggezza, perizia e senso dello Stato ha saputo risolvere una situazione difficile in tempi ristrettissimi nell'interesse del Paese e di tutti i cittadini.
 
@@ -822,6 +1040,7 @@ Insieme al Regno Unito - con cui quest'anno abbiamo le Presidenze parallele del 
 
 Questo è il terzo governo della legislatura. Non c'è nulla che faccia pensare che possa far bene senza il sostegno convinto di questo Parlamento. E' un sostegno che non poggia su alchimie politiche ma sullo spirito di sacrificio con cui donne e uomini hanno affrontato l'ultimo anno, sul loro vibrante desiderio di rinascere, di tornare più forti e sull'entusiasmo dei giovani che vogliono un paese capace di realizzare i loro sogni. Oggi, l'unità non è un'opzione, l'unità è un dovere. Ma è un dovere guidato da ciò che son certo ci unisce tutti: l'amore per l'Italia.")
 
+#making corpus----
 
 #tm library to create corpuses
 Monti_disco_Corpus<- Monti_disco %>%
@@ -835,7 +1054,7 @@ Draghi_disco_Corpus<- Draghi_disco %>%
 Monti_min<- tm_map(Monti_disco_Corpus, tolower)
 Draghi_min<- tm_map(Draghi_disco_Corpus, tolower)
 #deleting stopwords
-stopwords('it') #list of stop words
+#stopwords('it') #list of stop words
 #FINAL CORPUS MONTI
 Monti_NONSTOP <- tm_map(Monti_min, removeWords, stopwords('it'))
 Monti_Corpus <- tm_map(Monti_NONSTOP, stripWhitespace)
@@ -843,16 +1062,10 @@ Monti_Corpus <- tm_map(Monti_NONSTOP, stripWhitespace)
 Draghi_NONSTOP <- tm_map(Draghi_min, removeWords, stopwords('it'))
 Draghi_Corpus <- tm_map(Draghi_NONSTOP, stripWhitespace)
 
-#deleting useless objects
-rm(Draghi_disco_Corpus, Draghi_min, Draghi_NONSTOP, Monti_disco_Corpus, Monti_min, Monti_NONSTOP)
+#Sentiment Hypothesis-----
+library(rJava)
+library(qdap)
 
-
-
-Monti_freq<-freq_terms(Monti_Corpus)
-Draghi_freq<-freq_terms(Draghi_Corpus)
-
-
-#Sentiment Hypotesis 
 Monti_disco<-as.character(Monti_disco)
 Monti_score<-get_nrc_sentiment(Monti_disco, lang= "italian")
 monti_melted <- reshape2::melt(Monti_score)
@@ -877,9 +1090,9 @@ ggplot(draghi_melted, aes( x= variable , y = value, fill = variable )) +
   xlab("Sentiment/Emotion")+
   ggtitle("Sentiment Analysis Draghi")
 
-###plotting frequent terms by Monti and Draghi
-
-
+#plotting frequent terms by Monti and Draghi-----
+Monti_freq<-freq_terms(Monti_Corpus)
+Draghi_freq<-freq_terms(Draghi_Corpus)
 
 ggplot(Monti_freq, aes(x = reorder(WORD, -FREQ), y = FREQ)) +
   geom_bar(stat = "identity", fill = "cadetblue3") +
@@ -899,6 +1112,5 @@ ggplot(Draghi_freq, aes(x = reorder(WORD, -FREQ), y = FREQ)) +
 
 
 
+
 ```
-
-
