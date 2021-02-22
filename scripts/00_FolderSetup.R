@@ -4,6 +4,7 @@
 #dir.create("report")
 #dir.create("docs")
 #dir.create("download")
+#dir.create("unused")
 library(tidyverse)
 library(tidytext)
 library(rio)
