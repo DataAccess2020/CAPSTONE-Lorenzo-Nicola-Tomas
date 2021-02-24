@@ -1,7 +1,9 @@
-The objective for our Capstone Project was to analyse 
+The objective for our Capstone Project was to, starting from lates italian government crisis, have a sort of overview about technocracies in Italy and in Europe.
+
+We took inspiration from several works that are further explained in the repor and among which we can find
 
 
-##Analysis
+## Analysis
 
 Our analysis was conducted in R and by following different steps
 
@@ -20,18 +22,24 @@ Our analysis was conducted in R and by following different steps
 -Providing a text analysis of the most uses words from the two speeches
 
 
-##Organization of the workflow
+## Organization of the workflow
 
 We organized the project in different folders.
 
-scripts: A folder containg the R scripts with the code for the analysis.
-report: A folder containg the report in which the project is described.
-unused: A folder containing some interesting scripts that unfurtunately resulted unused.
-figs: A folder containing all the graphs and figures created from the analysis and presented in the report.
-download: A folder containing all scraped html pages and arcticles arcticles.
-dataset: A folder containing all datasets used for our analysis.
-docs: A folder containing all the sources we took inspiration from.
+**scripts**: A folder containg the R scripts with the code for the analysis.
 
-##Authors:
+**report**: A folder containg the report in which the project is described.
+
+**unused**: A folder containing some interesting scripts that unfurtunately resulted unused.
+
+**figs**: A folder containing all the graphs and figures created from the analysis and presented in the report.
+
+**download**: A folder containing all scraped html pages and arcticles arcticles.
+
+**dataset**: A folder containing all datasets used for our analysis.
+
+**docs**: A folder containing all the sources we took inspiration from.
+
+## Authors:
 Ruzza Tomas, Sioli Lorenzo, Destro Nicola
 
