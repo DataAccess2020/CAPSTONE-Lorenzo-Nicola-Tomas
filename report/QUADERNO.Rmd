@@ -1239,7 +1239,8 @@ ggplot(Draghi_freq, aes(x = reorder(WORD, -FREQ), y = FREQ)) +
   labs(title = "Frequent Terms in discourse by Draghi")
 ```
 
-
+The situation of urgency emerges with similar clearance from Monti's speech too,"dobbiamo" ("we must") is an example, but the most interesting aspect shown by this graph is in our opinion the idea of a specific direction for Italy in the words "program", and "European". 
+Draghi seems to be interested in making clear Italy's position within a renewed European framework and pronounces many times words related to the most discussed issues of the last period, "pandemics" of course, but also "women", "jobs" and citizenship.
 
 
 
