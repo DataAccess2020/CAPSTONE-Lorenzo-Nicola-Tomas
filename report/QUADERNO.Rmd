@@ -1219,19 +1219,25 @@ draghi_melted <- reshape2::melt(Draghi_score)
 #plotting frequent terms by Monti and Draghi-----
 Monti_freq<-freq_terms(Monti_Corpus)
 Draghi_freq<-freq_terms(Draghi_Corpus)
+```
 
+```{r text monti, results = TRUE}
 ggplot(Monti_freq, aes(x = reorder(WORD, -FREQ), y = FREQ)) +
   geom_bar(stat = "identity", fill = "cadetblue3") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   xlab("Terms") + ylab("Freq")+ 
   labs(title = "Frequent Terms in discourse by Monti")
+```
+In Monti's inaugural speech the shadow of the global debt crisis was vividly present in many of the top-used words; "growth" was by far the most pronounced word and the entire speech was pervaded by references to the economic situation and the urge to actively intervene on it with specific policies: "job", "necessary" and "intervention" are among the highest ranking words.
+Monti already prefigured the kind of operations that his government would have had to perform and the general need of austerity and focus on taxation and fiscal policies: "crisis", "fiscal", and "budget" ("bilancio").
 
+```{r text draghi, results = TRUE}
 ggplot(Draghi_freq, aes(x = reorder(WORD, -FREQ), y = FREQ)) +
   geom_bar(stat = "identity", fill = "darkblue") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   xlab("Terms") + ylab("Freq")+ 
   labs(title = "Frequent Terms in discourse by Draghi")
-
+```
 
 
 
