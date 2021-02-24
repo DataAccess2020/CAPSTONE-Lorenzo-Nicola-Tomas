@@ -533,7 +533,7 @@ One could already intuitively think of a correlation between technocracies/caret
 We decided to report here two of the tables that inspired our analysis, the variables they contain are a first step to understand the causality and nature of the governments in analysis.
 
 ```{r table1, results = 'asis'}
-library(kableExtra)
+
 df <- rio::import(here::here("dataset", "Percentage_EU_Tech_Gov.csv"))
  
 df %>%
