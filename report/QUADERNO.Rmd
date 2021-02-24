@@ -525,6 +525,41 @@ Map1<-EU + geom_point(aes(x = CapitalLongitude, y = CapitalLatitude, label=state
 ggplotly(Map1)
 
 ```
+What appears immediately clear from this map is that both caretakers and technocracies are something quite common in European democracies, even if it is a circumscribed phenomenon.
+Eastern and southern countries have recurred to this "special" government types quite often, while the greater economic powers of central and northern Europe never had to in the last decades.
+
+Even though defining a clear pattern and correlations between circumstances and the necessity of a caretaker government would be an immensely complex task, some deductions and mild hypothesis can be derived from the collocation in space and time of the European cases.
+One could already intuitively think of a correlation between technocracies/caretakers and the urge to face an issue which is indeed "technical", and as such strictly related to the economic situation.
+We decided to report here two of the tables that inspired our analysis, the variables they contain are a first step to understand the causality and nature of the governments in analysis.
+
+```{r table1, results = 'asis'}
+library(kableExtra)
+df <- rio::import(here::here("dataset", "Percentage_EU_Tech_Gov.csv"))
+ 
+df %>%
+  kbl() %>%
+  kable_styling()
+```
+```{r table2, results = 'asis'}
+fd <- rio::import(here::here("dataset", "Tech_Gov_Economics.csv"))
+ 
+fd %>%
+  kbl() %>%
+  kable_styling()
+```
+
+
+
+##PHASE 3 NEWSPAPERS
+The specificity of the countries and time periods that hosted caretaker governments immediately led us to think to some sort of dicotomy between the political establishments who neeeded them, and those who did not.
+In order to check whether there were strong opinions towards this forms of government and the usually not "reassuring" circumstances that led to their installations we tried a little experiment.
+
+We scraped the articles from a few foreign newspapers about two of the most important Italian government crisis, the ones that led to  Mario Monti's cabinet in 2011, and the most recent one which conducted to the establishment of a new majority led by Mario Draghi.
+Unfortunately, we encountered several issues with the non-english articles (from LeMonde and Spiegel) and decided to only use the Guardian and BBC to perform our analysis. The Text analysis was quite a miss and a disappointment, nothing interesting emerged from it, the most used words were all only connected to mere "narration" rather than to proper opinions.
+We decided then to try with a sentiment analysis which is reported below:
+the results were a little more informative; "positive" and "trust" were the two emotions with the highest frequency along with "negative".
+This actually makes sense when compared to what we red in both occasions on our national newspapers, the advent of technocracies is in fact compatible with a "negative" situation to begin with, but also with the necessity to be "positive" towards this solution and "trust" in the new highly competent cabinet. Both Monti and Draghi are perfect examples of  widely respected technicians even from an international point of view that were deemed trustworthy and capable from both national and foreign papers.  
+
 
 ```{r np_scraping}
 #NEWSPAPERS SCRAPING----
