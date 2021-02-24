@@ -857,6 +857,17 @@ ggplot(point.final, aes( x= sentiment , y = point, fill = sentiment )) +
     theme(legend.position = "bottom")
  
 ```
+We wanted to further look into these two cabinets. 
+The experience of the Monti government is, in fact, being recalled more than often in the recent days in order to compare it with the current Italian situation both for bad and for good.
+Even if it is too soon to really judge and contrast this two very different and yet similar political establishments, we decided to venture in an earlier and simpler form of comparison starting with the two prime ministers inaugural speeches.
+Before we do that it is important to point out the main differences between these two executives, being led by a strong technocratic component could be the only real similarity and a proper comparison of the operations they perform could be very difficult, or even inappropriate; Monti was a full technocratic government, Draghi is not, the new majority is "political", making this only a technocratic led partisan government.
+However the almost unprecedented width of such majority makes it difficult to actually define the actual orientation of the government.
+Both Monti and Draghi came into the scene as a form of "last resort" against very delicate and problematic economic situations, the circumstances are however hardly comparable mainly for the means and instruments at disposal of the two prime ministers.
+Monti's one was a time of austerity, while Draghi's aims to be one for investments thanks to the fund provided by the EU through the "Next Generation EU" project.
+
+Our text analysis of the two speeches shows evidence of this deep difference.
+
+
 
 ```{r m_vs_d}
 #DISCOURSE ANALYSIS
@@ -1203,21 +1214,7 @@ Draghi_disco<-as.character(Draghi_disco)
 Draghi_score<-get_nrc_sentiment(Draghi_disco, lang="italian")
 draghi_melted <- reshape2::melt(Draghi_score)
 
-####Plot MONTI
 
-ggplot(monti_melted, aes( x= variable , y = value, fill = variable )) +
-  geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 45, hjust=1)) + 
-  ylab("Score")+
-  xlab("Sentiment/Emotion")+
-  ggtitle("Sentiment Analysis Monti")
-
-###Plot DRAGHI
-
-ggplot(draghi_melted, aes( x= variable , y = value, fill = variable )) +
-  geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 45, hjust=1)) + 
-  ylab("Score")+
-  xlab("Sentiment/Emotion")+
-  ggtitle("Sentiment Analysis Draghi")
 
 #plotting frequent terms by Monti and Draghi-----
 Monti_freq<-freq_terms(Monti_Corpus)
