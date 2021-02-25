@@ -1,4 +1,7 @@
-The objective for our Capstone Project was to, starting from last Italian government crisis, have a sort of overview about technocracies in Italy and in Europe. The original goal was to create a sort of "definitive guide" about the numbers of Italian's crisis, often discordant between each other. This analysis became out starting point to analyze the impact of technocracy in Italy, comparing it between other technocratic governments in Europe. After that, we decided to compared Mario Monti's and Mario Draghi's inaugural speech in senate to give a sight at the situation that make this kind of government necessary.
+The purpose of our Capstone Project was to have an overview about technocracies in Italy and in Europe, starting from last Italian government crisis.
+The original goal was to create a sort of "definitive guide" about Italian's crisis, which numbers are often discordant between each other. This analysis became our starting point for experimenting some data visualization in R and for having a look to the impact of technocracy in Italy, comparing it with other technocratic governments in Europe. 
+Ultimately, we decided to compare Mario Monti's and Mario Draghi's governments.
+We started with scraping some european newspaper in order to find out how they represented this cabinets and we ended by comparing Mario Monti's and Mario Draghi's inaugural speech in order to make a compared text analysis.
 
 We took inspiration from several works that are further explained in the report and among which we can find.
 
