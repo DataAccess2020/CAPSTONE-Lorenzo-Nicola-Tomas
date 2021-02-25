@@ -372,7 +372,7 @@ There could be, however, a new pattern towards slightly longer executives starte
 ```{r plot_visual_analysis_1, results = TRUE}
 #Time line days plot----
 
-time_line2 <- ggplot(italy, aes(x = start_date, y = real_days)) +
+time_line2 <- ggplot(italy, aes(x = start_date, y = real_days, label = cabinet_name)) +
   geom_line(color = "orange") + 
   geom_point(color = "black") +
   scale_y_continuous() +
@@ -394,7 +394,7 @@ However, most of the highest bars in our graph are in correspondence of new elec
 
 ```{r plot_visual_analysis_2, results = TRUE}
 #Crisis Days plot----
-g1 <- ggplot(italy, aes(x = ID, y = crisis_days)) +
+g1 <- ggplot(italy, aes(x = ID, y = crisis_days, label = cabinet_name)) +
     geom_bar(stat = "identity", fill = "darkblue") +
     scale_y_continuous() +
     ggtitle("Crisis days")+
@@ -476,7 +476,7 @@ plottacont <- ggplot(contaplot, aes(x=reorder(trigger_for_technocracy,-count),y=
 ```
 
 ```{r triggersplot,  results = TRUE}
-ggplotly(plottacont)
+plottacont
 
 ```
 
