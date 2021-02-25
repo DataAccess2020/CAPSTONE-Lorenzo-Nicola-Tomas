@@ -14,6 +14,23 @@ wordcount <- wordcountaddin::word_count(here::here("report", "QUADERNO.rmd"))
 wordcount
 ```
 
+This project goal was initially to analyse and visualize the Italian Republican history following its subsequents governments and, most importantly, its government crisis.
+As Italian young citizens we are very familiar with some of the stereotypes revolving around our political system, one of the strongest being the great instability.
+The numbers around our frequent crisis are object of continuous discussion and as such are often reported imprecisely.
+We decided to create a dataset that could help us describe exactly the phenomenon of political instability in Italy, both in terms of the time that our country has spent "suspended" by it and in terms of the impact that this behaviour has on the very nature of our governments.
+One of the inspirations for our work was Gabanelli's and Ravizza'a article "Crisi di governo: 66 esecutivi in 75 anni. Quanto ci costa l’instabilità politica?", published on the italian newspaper "Corriere della Sera" which helped us in designing our visualization.
+
+
+From this very simple idea our project evolved widening again and again the spectrum of our analysis towards two main directions: the comparison between Italy and the other European countries and a focus on our current circumstances, the advent of Mario Draghi and with him of the 4th Italian experience with a form of technocracy.
+
+The second step of our work was motivated by a common interest for the concept of technocracy and inspired by the reading of a marvelous PhD thesis on the topic ("Technocratic Governments: Power, Expertise and Crisis Politics in European Democracies", Pastorella 2016). 
+The pandemics is generating new challenges for European countries and democracies in general, crisis seems to be the main due condition for technocracies to pop up; this made us want to include this topic in our project, we think it could be one of the most important for EU's close future and Italy could represent just the first chapter.
+
+
+
+
+
+
 ##SET UP
 
 We started by creating a specific script for setting up our software for the analysis, choosing and loading the required packages
