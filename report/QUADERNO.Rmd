@@ -1,8 +1,8 @@
 ---
 title: "Quaderno"
 author: "Ruzza Tomas, Sioli Lorenzo, Destro Nicola"
-date: "2/22/2021"
-output: html_document
+date: "01/03/2021"
+subtitle: "DAPS&CO - Data Access and Regulation"
 ---
 
 ```{r setup, include=FALSE}
@@ -17,18 +17,14 @@ We started by creating a specific script for setting up our software for the ana
 ```{r libraries}
 #LIBRARIES----
 library(tidyverse)
-library(tidytext)
 library(rio)
 library(stringr)
 library(xml2)
 library(httr)
 library(RCurl)
-library(quanteda)
 library(qdapRegex)
-library(rtweet)
 library(rvest)
 library(lubridate)
-library(scales)
 library(stargazer)
 library(kableExtra)
 library(plotly)
