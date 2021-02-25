@@ -32,6 +32,8 @@ unused | unused scripts
 download | Downloaded articles
 dataset | All datasets we used
 docs | Useful papers and documents
+report | The final report in rmd and html
+
 
 ## Authors:
 Ruzza Tomas, Sioli Lorenzo, Destro Nicola
