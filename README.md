@@ -1,6 +1,6 @@
-The objective for our Capstone Project was to, starting from lates italian government crisis, have a sort of overview about technocracies in Italy and in Europe.
+The objective for our Capstone Project was to, starting from last Italian government crisis, have a sort of overview about technocracies in Italy and in Europe. The original goal was to create a sort of "definitive guide" about the numbers of Italian's crisis, often discordant between each other. This analysis became out starting point to analyze the impact of technocracy in Italy, comparing it between other technocratic governments in Europe. After that, we decided to compared Mario Monti's and Mario Draghi's inaugural speech in senate to give a sight at the situation that make this kind of government necessary.
 
-We took inspiration from several works that are further explained in the repor and among which we can find
+We took inspiration from several works that are further explained in the report and among which we can find.
 
 
 ## Analysis
@@ -22,23 +22,16 @@ Our analysis was conducted in R and by following different steps
 -Providing a text analysis of the most uses words from the two speeches
 
 
-## Organization of the workflow
+## Folder
 
-We organized the project in different folders.
-
-**scripts**: A folder containg the R scripts with the code for the analysis.
-
-**report**: A folder containg the report in which the project is described.
-
-**unused**: A folder containing some interesting scripts that unfurtunately resulted unused.
-
-**figs**: A folder containing all the graphs and figures created from the analysis and presented in the report.
-
-**download**: A folder containing all scraped html pages and arcticles arcticles.
-
-**dataset**: A folder containing all datasets used for our analysis.
-
-**docs**: A folder containing all the sources we took inspiration from.
+Folder name | Content
+------------ | -------------
+scripts | the heart of the project
+figs | plots exported
+unused | unused scripts
+download | Downloaded articles
+dataset | All datasets we used
+docs | Useful papers and documents
 
 ## Authors:
 Ruzza Tomas, Sioli Lorenzo, Destro Nicola
