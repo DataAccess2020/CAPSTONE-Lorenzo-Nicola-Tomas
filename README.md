@@ -21,7 +21,7 @@ We had to approach many different datasets and situations and we learnt a lot fr
 The Capstone Project was for us a first an important chance to challenge ourselves and discover practically the application of our new set of skills and knowledge.
 
 
-## SET UP
+## Set Up
 
 All of the mentioned datasets are retrievable in thw project folders.
 
