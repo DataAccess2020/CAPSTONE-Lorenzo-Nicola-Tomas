@@ -20,6 +20,34 @@ Our final work contains a variety of charts and visualization tools. Our main in
 We had to approach many different datasets and situations and we learnt a lot from the difficulties  we encountered.
 The Capstone Project was for us a first an important chance to challenge ourselves and discover practically the application of our new set of skills and knowledge.
 
+
+## SET UP
+
+All of the mentioned datasets are retrievable in thw project folders.
+
+Part 1
+-We started by creating a specific script for setting up our software for the analysis, choosing and loading the required packages
+
+-We imported the "parl_gov" dataset and filtered it for observations about Italy.
+
+-We scraped Wikipedia to perfect our df with some important missing variables
+
+Part 2
+-This bit required a second dataset gathered from the scraping of an academic paper (McDonnel, Valbruzzi 2014)
+
+-We had to import the coordinates for the European capital cities from kaggle
+
+Part 3
+
+-The data for this part was gathered scraping the websites of some newspapers (The Guardian, BBC, Le Monde, Der Spiegel)
+
+Part 4
+- We manually imported the speeches of Monti and Draghi as .txt files
+
+
+
+
+
 ## Folders
 
 Folder name | Content

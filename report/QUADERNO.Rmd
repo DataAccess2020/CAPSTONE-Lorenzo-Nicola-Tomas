@@ -14,11 +14,11 @@ wordcount <- wordcountaddin::word_count(here::here("report", "QUADERNO.rmd"))
 wordcount
 ```
 
-This project goal was initially to analyse and visualize the Italian Republican history following its subsequents governments and, most importantly, its government crisis.
+This project goal was initially to analise and visualize the Italian Republican history following its governments and, most importantly, its government crisis.
 As Italian young citizens we are very familiar with some of the stereotypes revolving around our political system, one of the strongest being the great instability.
 The numbers around our frequent crisis are object of continuous discussion and as such are often reported imprecisely.
 We decided to create a dataset that could help us describe exactly the phenomenon of political instability in Italy, both in terms of the time that our country has spent "suspended" by it and in terms of the impact that this behaviour has on the very nature of our governments.
-One of the inspirations for our work was Gabanelli's and Ravizza'a article "Crisi di governo: 66 esecutivi in 75 anni. Quanto ci costa l’instabilità politica?", published on the italian newspaper "Corriere della Sera" which helped us in designing our visualization.
+One of the inspirations for our work was Gabanelli's and Ravizza'a article "Crisi di governo: 66 esecutivi in 75 anni. Quanto ci costa l’instabilità politica?", published on the Italian newspaper "Corriere della Sera" which helped us in designing our visualization.
 
 
 From this very simple idea our project evolved widening again and again the spectrum of our analysis towards two main directions: the comparison between Italy and the other European countries and a focus on our current circumstances, the advent of Mario Draghi and with him of the 4th Italian experience with a form of technocracy.
@@ -31,9 +31,8 @@ The pandemics is generating new challenges for European countries and democracie
 
 
 
-##SET UP
 
-We started by creating a specific script for setting up our software for the analysis, choosing and loading the required packages
+
 
 
 ```{r libraries}
@@ -241,7 +240,7 @@ italy[italy$ID == 4, "outcomes"] <- "Constitutional Referendum"
 
 ```
 
-##PHASE 1 - ANALYSIS
+## PHASE 1 - ANALYSIS
 
 We went on with our analysis starting from the visualization of our data.
 First, we wanted compare the crisis time between each government and the averages and highlights of the Italian cabinets.
@@ -435,7 +434,7 @@ ggplotly(g2)
 
 ```
 
-##PHASE 2 - CARETAKERS
+## PHASE 2 - CARETAKERS
 
 In light of our analysis of the Italian history and situation we wanted to compare it with similar political realities, a.i Europe.
 Is Italian instability an anomaly? Is it common for a contemporary democracy to recur to caretaker cabinets as an instrument to handle crisis and emergencies?
@@ -568,7 +567,7 @@ fd %>%
 
 
 
-##PHASE 3 NEWSPAPERS
+## PHASE 3 NEWSPAPERS
 The specificity of the countries and time periods that hosted caretaker governments immediately led us to think to some sort of dicotomy between the political establishments who neeeded them, and those who did not.
 In order to check whether there were strong opinions towards this forms of government and the usually not "reassuring" circumstances that led to their installations we tried a little experiment.
 
@@ -874,7 +873,11 @@ ggplot(point.final, aes( x= sentiment , y = point, fill = sentiment )) +
   ggtitle("General Sentiment Analysis")+
     theme(legend.position = "bottom")
  
+
 ```
+
+## PHASE 4 - SPEECHES
+
 We wanted to further look into these two cabinets. 
 The experience of the Monti government is, in fact, being recalled more than often in the recent days in order to compare it with the current Italian situation both for bad and for good.
 Even if it is too soon to really judge and contrast this two very different and yet similar political establishments, we decided to venture in an earlier and simpler form of comparison starting with the two prime ministers inaugural speeches.
@@ -1259,7 +1262,6 @@ ggplot(Draghi_freq, aes(x = reorder(WORD, -FREQ), y = FREQ)) +
 
 The situation of urgency emerges with similar clearance from Monti's speech too,"dobbiamo" ("we must") is an example, but the most interesting aspect shown by this graph is in our opinion the idea of a specific direction for Italy in the words "program", and "European". 
 Draghi seems to be interested in making clear Italy's position within a renewed European framework and pronounces many times words related to the most discussed issues of the last period, "pandemics" of course, but also "women", "jobs" and citizenship.
-
 
 
 
