@@ -20,7 +20,7 @@ Our final work contains a variety of charts and visualization tools. Our main in
 We had to approach many different datasets and situations and we learnt a lot from the difficulties  we encountered.
 The Capstone Project was for us a first an important chance to challenge ourselves and discover practically the application of our new set of skills and knowledge.
 
-## Folder
+## Folders
 
 Folder name | Content
 ------------ | -------------
