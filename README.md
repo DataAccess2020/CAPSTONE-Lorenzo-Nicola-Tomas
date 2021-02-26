@@ -9,10 +9,10 @@ The original goal was to create a sort of "definitive guide" about Italian gover
 
 Such analysis ended up being just a beginning of our work which we developed in four different phases:
 
--italian government crisis
--technocracies in Europe
--perception of the italian situation in foreign newspapers
--comparison between the speeches of Mario Monti and Mario Draghi
+- Italian government crisis
+- Technocracies in Europe
+- Perception of the Italian situation in foreign newspapers
+- Comparison between the speeches of Mario Monti and Mario Draghi
 
 ## Personal goals
 
@@ -26,20 +26,20 @@ The Capstone Project was for us a first an important chance to challenge ourselv
 All of the mentioned datasets are retrievable in thw project folders.
 
 Part 1
--We started by creating a specific script for setting up our software for the analysis, choosing and loading the required packages
+- We started by creating a specific script for setting up our software for the analysis, choosing and loading the required packages
 
--We imported the "parl_gov" dataset and filtered it for observations about Italy.
+- We imported the "parl_gov" dataset and filtered it for observations about Italy.
 
--We scraped Wikipedia to perfect our df with some important missing variables
+- We scraped Wikipedia to perfect our df with some important missing variables
 
 Part 2
--This bit required a second dataset gathered from the scraping of an academic paper (McDonnel, Valbruzzi 2014)
+- This bit required a second dataset gathered from the scraping of an academic paper (McDonnel, Valbruzzi 2014)
 
--We had to import the coordinates for the European capital cities from kaggle
+- We had to import the coordinates for the European capital cities from kaggle
 
 Part 3
 
--The data for this part was gathered scraping the websites of some newspapers (The Guardian, BBC, Le Monde, Der Spiegel)
+- The data for this part was gathered scraping the websites of some newspapers (The Guardian, BBC, Le Monde, Der Spiegel)
 
 Part 4
 - We manually imported the speeches of Monti and Draghi as .txt files
