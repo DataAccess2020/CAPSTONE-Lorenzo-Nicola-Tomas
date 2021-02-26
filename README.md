@@ -34,8 +34,8 @@ report | The final report in rmd and html
 
 ## Packages Required
 
-tidyverse, tidytext, rio, stringr, xml2, httr, RCurl, qdapRegex, rvest, lubridate, stargazer, kableExtra, plotly,tm, syuzhet, rJava, qdap, rnaturalearth, rnaturalearthdata, rgeos, devtools, wordcountaddin.
+tidyverse, tidytext, rio, stringr, xml2, httr, RCurl, qdapRegex, rvest, lubridate, stargazer, kableExtra, plotly, tm, syuzhet, rJava, qdap, rnaturalearth, rnaturalearthdata, rgeos, devtools, wordcountaddin.
 
-## Authors:
+## Authors
 Ruzza Tomas, Sioli Lorenzo, Destro Nicola
 
