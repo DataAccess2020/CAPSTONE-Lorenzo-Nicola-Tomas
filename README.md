@@ -1,9 +1,9 @@
-#TITLE
+#Instability and Technocracy in Italy: A Bird's Eye View
 
 ## About the project
 
 This is the Capstone project of Nicola Destro, Lorenzo Sioli and Tomas Ruzza, for the course *Data Access and Regulation, Module II*
-With a focus on the last Italian government crisis, the purpose of our project was to provide an overview about italian political instability and technocracies (in Italy and in Europe).
+With a focus on the last Italian government crisis, the purpose of our project was to provide an overview about italian political instability and technocracies.
 
 The original goal was to create a sort of "definitive guide" about Italian government crisis, also because the literature on this topic was fewer and, at times, more contradictory than one would expect.
 
@@ -14,16 +14,27 @@ Such analysis ended up being just a beginning of our work which we developed in 
 - Perception of the Italian situation in foreign newspapers
 - Comparison between the speeches of Mario Monti and Mario Draghi
 
+## Workflow and organization
+
+We worked at the project mainly together while connected in voice-call, so that everyone had a direct vision of the project evolution. (That was also a opportunity to get to know each other, given the circumstances).
+Anyway, each branch of work had its own "supervisor".
+
+- Lorenzo worked on the data management part and his code provided us with our final datasets, he also was the head of the sentiment and text analysis bit.
+
+- Tomas was mostly busy with data gathering, scraping and with the hardest part of data visualization, beside taking particular care of the first bit of our analysis.
+
+- Nicola worked on some data visualization with Tomas, along with on the larger part of what concerned technocracies. He also was in charge of the formal supervision of the final report.
+
 ## Personal goals
 
 Our final work contains a variety of charts and visualization tools. Our main interest was in fact to experiment and have fun in the highest possible number of ways with R.
-We had to approach many different datasets and situations and we learnt a lot from the difficulties  we encountered.
+We had to approach many different datasets and situations and we learnt a lot from the difficulties we encountered.
 The Capstone Project was for us a first an important chance to challenge ourselves and discover practically the application of our new set of skills and knowledge.
 
 
 ## Set Up
 
-All of the mentioned datasets are retrievable in thw project folders.
+All of the mentioned datasets are retrievable in the project folders.
 
 Part 1
 - We started by creating a specific script for setting up our software for the analysis, choosing and loading the required packages
@@ -35,13 +46,14 @@ Part 1
 Part 2
 - This bit required a second dataset gathered from the scraping of an academic paper (McDonnel, Valbruzzi 2014)
 
-- We had to import the coordinates for the European capital cities from kaggle
+- We had to import the coordinates for the European capital cities from kaggle.com
 
 Part 3
 
 - The data for this part was gathered scraping the websites of some newspapers (The Guardian, BBC, Le Monde, Der Spiegel)
 
 Part 4
+
 - We manually imported the speeches of Monti and Draghi as .txt files
 
 
