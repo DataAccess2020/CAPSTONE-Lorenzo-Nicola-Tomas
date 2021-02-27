@@ -13,10 +13,10 @@ WORDCOUNT:
 wordcount <- wordcountaddin::word_count(here::here("report", "QUADERNO.rmd"))
 wordcount
 ```
-
+### Introduction
 This project goal was initially to analise and visualize the Italian Republican history following its governments and, most importantly, its government crisis.
 As Italian young citizens we are very familiar with some of the stereotypes revolving around our political system, one of the strongest being the great instability.
-The numbers around our frequent crisis are object of continuous discussion and as such are often reported imprecisely.
+The numbers around our frequent crisis are object of continuous discussion and, as such, are often reported imprecisely.
 We decided to create a dataset that could help us describe exactly the phenomenon of political instability in Italy, both in terms of the time that our country has spent "suspended" by it and in terms of the impact that this behaviour has on the very nature of our governments.
 One of the inspirations for our work was Gabanelli's and Ravizza'a article "Crisi di governo: 66 esecutivi in 75 anni. Quanto ci costa l’instabilità politica?", published on the Italian newspaper "Corriere della Sera" which helped us in designing our visualization.
 
@@ -26,14 +26,10 @@ From this very simple idea our project evolved widening again and again the spec
 The second step of our work was motivated by a common interest for the concept of technocracy and inspired by the reading of a marvelous PhD thesis on the topic ("Technocratic Governments: Power, Expertise and Crisis Politics in European Democracies", Pastorella 2016). 
 The pandemics is generating new challenges for European countries and democracies in general, crisis seems to be the main due condition for technocracies to pop up; this made us want to include this topic in our project, we think it could be one of the most important for EU's close future and Italy could represent just the first chapter.
 
+The following step was for us to focus on Italy's last two experiences with technocracy: Monti, and Draghi.
+This process was divided into two: a sentiment analysis of foreign papers and a text analysis of the inaugural speeches of each Prime Minister.
 
-
-
-
-
-
-
-
+It is very important to say that the main and greater purpose of our project was to challenge ourselves and our newly acquired skill-set; we tried to experiment with R as much as we could, we used a variety of packages and played with different ideas for analysis and visualization. We are glad to say that we also had real good fun doing so.
 
 ```{r libraries}
 #LIBRARIES----
@@ -53,6 +49,7 @@ library(tm)
 library(syuzhet)
 ```
 
+### The dataset
 
 We imported the "parl_gov" dataset and filtered it for observations about Italy.
 We needed to add variables to this base dataframe and looked for them on Wikipedia, we scraped the Wikipedia pages for each and every one of the Italian republican governments with a for-loop.
@@ -240,7 +237,7 @@ italy[italy$ID == 4, "outcomes"] <- "Constitutional Referendum"
 
 ```
 
-## PHASE 1 - ANALYSIS
+### The history of Italian government crisis
 
 We went on with our analysis starting from the visualization of our data.
 First, we wanted compare the crisis time between each government and the averages and highlights of the Italian cabinets.
@@ -434,7 +431,7 @@ ggplotly(g2)
 
 ```
 
-## PHASE 2 - CARETAKERS
+### Caretaker governments and technocracies, an European overview
 
 In light of our analysis of the Italian history and situation we wanted to compare it with similar political realities, a.i Europe.
 Is Italian instability an anomaly? Is it common for a contemporary democracy to recur to caretaker cabinets as an instrument to handle crisis and emergencies?
@@ -567,7 +564,7 @@ fd %>%
 
 
 
-## PHASE 3 NEWSPAPERS
+### Foreign perception of Italy: newspapers analysis
 The specificity of the countries and time periods that hosted caretaker governments immediately led us to think to some sort of dicotomy between the political establishments who neeeded them, and those who did not.
 In order to check whether there were strong opinions towards this forms of government and the usually not "reassuring" circumstances that led to their installations we tried a little experiment.
 
@@ -876,7 +873,7 @@ ggplot(point.final, aes( x= sentiment , y = point, fill = sentiment )) +
 
 ```
 
-## PHASE 4 - SPEECHES
+### Monti and Draghi inaugural speeches: different technocracies
 
 We wanted to further look into these two cabinets. 
 The experience of the Monti government is, in fact, being recalled more than often in the recent days in order to compare it with the current Italian situation both for bad and for good.
@@ -1263,7 +1260,9 @@ ggplot(Draghi_freq, aes(x = reorder(WORD, -FREQ), y = FREQ)) +
 The situation of urgency emerges with similar clearance from Monti's speech too,"dobbiamo" ("we must") is an example, but the most interesting aspect shown by this graph is in our opinion the idea of a specific direction for Italy in the words "program", and "European". 
 Draghi seems to be interested in making clear Italy's position within a renewed European framework and pronounces many times words related to the most discussed issues of the last period, "pandemics" of course, but also "women", "jobs" and citizenship.
 
+### Accomplishments and conclusions
+
+Even if our capstone project could explore way further the concepts that we touched upon, we hope it results in an interesting basic description of the topics we decided to inquire.
+Jumping from one "question" to the next we had the occasion to really understand R's power and to set the stage for many future possible deeper reflections and analysis.
 
 
-
-```
