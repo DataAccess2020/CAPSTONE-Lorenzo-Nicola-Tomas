@@ -1,8 +1,8 @@
 ---
-title: "Quaderno"
+title: "Instability And Technocracy In Italy: A Bird's Eye View"
 author: "Ruzza Tomas, Sioli Lorenzo, Destro Nicola"
 date: "01/03/2021"
-subtitle: "DAPS&CO - Data Access and Regulation"
+subtitle: "DAPS&CO - Data Access and Regulation, Module II"
 ---
 
 ```{r setup, include=FALSE}
@@ -13,6 +13,8 @@ WORDCOUNT:
 wordcount <- wordcountaddin::word_count(here::here("report", "QUADERNO.rmd"))
 wordcount
 ```
+
+
 ### Introduction
 This project goal was initially to analise and visualize the Italian Republican history following its governments and, most importantly, its government crisis.
 As Italian young citizens we are very familiar with some of the stereotypes revolving around our political system, one of the strongest being the great instability.
