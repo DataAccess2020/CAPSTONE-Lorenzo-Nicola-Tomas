@@ -1268,4 +1268,9 @@ Draghi seems to be interested in making clear Italy's position within a renewed 
 Even if our capstone project could explore way further the concepts that we touched upon, we hope it results in an interesting basic description of the topics we decided to inquire.
 Jumping from one "question" to the next we had the occasion to really understand R's power and to set the stage for many future possible deeper reflections and analysis.
 
+We are very happy with our personal accomplishments, we think we enhanced every aspect of our programming work-flow, and most importantly this project felt like a good, softer, preview of how part of our future work and research will look like.
+
+We believe that there is much to say around the topics we encountered; much can be done for Italy through the understanding of its instability as it is one of the primary cause of distrust in politics for our generation.
+Moreover, technocracies are in our opinion something that will gather more and more importance and interest within the next years; many parties in Europe are shifting their focuses towards technicality and competence, and the world is providing challenges, tools and technologies that will require new paradigms perhaps based on this very staples and political models. 
+
 
