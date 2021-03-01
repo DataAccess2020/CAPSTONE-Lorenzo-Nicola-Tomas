@@ -1,8 +1,8 @@
-#Instability and Technocracy in Italy: A Bird's Eye View
+# Instability and Technocracy in Italy: A Bird's Eye View
 
 ## About the project
 
-This is the Capstone project of Nicola Destro, Lorenzo Sioli and Tomas Ruzza, for the course *Data Access and Regulation, Module II*
+This is the Capstone project of Nicola Destro, Lorenzo Sioli and Tomas Ruzza, for the course *Data Access and Regulation, Module II*.
 With a focus on the last Italian government crisis, the purpose of our project was to provide an overview about italian political instability and technocracies.
 
 The original goal was to create a sort of "definitive guide" about Italian government crisis, also because the literature on this topic was fewer and, at times, more contradictory than one would expect.
@@ -23,7 +23,7 @@ Anyway, each branch of work had its own "supervisor".
 
 - Tomas was mostly busy with data gathering, scraping and with the hardest part of data visualization, beside taking particular care of the first bit of our analysis.
 
-- Nicola worked on some data visualization with Tomas, along with on the larger part of what concerned technocracies. He also was in charge of the formal supervision of the final report.
+- Nicola worked on some data visualization with Tomas and on the larger part of what concerned technocracies. He also was in charge of the formal supervision of the final report.
 
 ## Personal goals
 
@@ -32,14 +32,14 @@ We had to approach many different datasets and situations and we learnt a lot fr
 The Capstone Project was for us a first an important chance to challenge ourselves and discover practically the application of our new set of skills and knowledge.
 
 
-## Set Up
+## Set up and sources
 
 All of the mentioned datasets are retrievable in the project folders.
 
 Part 1
 - We started by creating a specific script for setting up our software for the analysis, choosing and loading the required packages
 
-- We imported the "parl_gov" dataset and filtered it for observations about Italy.
+- We imported the "parl_gov" dataset and filtered it for observations about Italy
 
 - We scraped Wikipedia to perfect our df with some important missing variables
 
@@ -67,10 +67,10 @@ Folder name | Content
 scripts | the heart of the project
 figs | plots exported
 unused | unused scripts
-download | Downloaded articles
-dataset | All datasets we used
-docs | Useful papers and documents
-report | The final report in rmd and html
+download | downloaded articles
+dataset | all datasets we used
+docs | useful papers and documents
+report | the final report in rmd and html
 
 ## Packages Required
 

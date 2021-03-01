@@ -21,7 +21,7 @@ This project goal was initially to analise and visualize the Italian Republican 
 As Italian young citizens we are very familiar with some of the stereotypes revolving around our political system, one of the strongest being the great instability.
 The numbers around our frequent crisis are object of continuous discussion and, as such, are often reported imprecisely.
 We decided to create a dataset that could help us describe exactly the phenomenon of political instability in Italy, both in terms of the time that our country has spent "suspended" by it and in terms of the impact that this behaviour has on the very nature of our governments.
-One of the inspirations for our work was Gabanelli's and Ravizza'a article "Crisi di governo: 66 esecutivi in 75 anni. Quanto ci costa l’instabilità politica?", published on the Italian newspaper "Corriere della Sera" which helped us in designing our visualization.
+One of the inspirations for our work was Gabanelli's and Ravizza's article "Crisi di governo: 66 esecutivi in 75 anni. Quanto ci costa l’instabilità politica?", published on the Italian newspaper "Corriere della Sera" which helped us in designing our visualization.
 
 
 From this very simple idea our project evolved widening again and again the spectrum of our analysis towards two main directions: the comparison between Italy and the other European countries and a focus on our current circumstances, the advent of Mario Draghi and with him of the 4th Italian experience with a form of technocracy.
@@ -32,7 +32,7 @@ The pandemics is generating new challenges for European countries and democracie
 The following step was for us to focus on Italy's last two experiences with technocracy: Monti, and Draghi.
 This process was divided into two: a sentiment analysis of foreign papers and a text analysis of the inaugural speeches of each Prime Minister.
 
-It is very important to say that the main and greater purpose of our project was to challenge ourselves and our newly acquired skill-set; we tried to experiment with R as much as we could, we used a variety of packages and played with different ideas for analysis and visualization. We are glad to say that we also had real good fun doing so.
+It is very important to say that the main and greater purpose of our project was to challenge ourselves and our newly acquired skill-set; we tried to experiment with R as much as we could, we used a variety of packages and played with different ideas for analysis and visualization. We are glad to say that we also had real good fun in doing so.
 
 ```{r libraries}
 #LIBRARIES----
@@ -243,7 +243,7 @@ italy[italy$ID == 4, "outcomes"] <- "Constitutional Referendum"
 ### The history of Italian government crisis
 
 We went on with our analysis starting from the visualization of our data.
-First, we wanted compare the crisis time between each government and the averages and highlights of the Italian cabinets.
+First, we wanted to compare the crisis time between each government and the averages and highlights of the Italian cabinets.
 Our variables are "tot_days" which counts the total days of length of a given cabinet from the day of its oath to the oath of the next one.
 "real_days", which counts the days of a cabinet from oath date to resignation date.
 And "crisis_days" which counts the difference between "tot" and "real", and basically represents the crisis period of the executive.
@@ -252,11 +252,11 @@ The record for the longest executive is currently 1412 (with only three crisis d
 Italy spent 2364 days in office for current affairs in total (and counting).
 
 
-
+<div align = 'center'>
 ```{r  results = "asis", fig.align= "center" }
 stargazer(summarize(italy, crisis_days, tot_days, real_days), type = "html", nobs = FALSE, mean.sd = TRUE, median = TRUE, iqr = TRUE) 
 ```
-
+</div>
 
 
 
@@ -352,7 +352,7 @@ This pie-chart shows the proportions of such outcomes.
 A confirmation of the exiting majority with a government reshuffle is the most common outcome of an Italian government crisis: basically the ministers change but the majority coalition remains unchanged. 
 Similarly often a new majority is crafted without calling for new elections: a new government coalition within the same legislature, this is what recently happened in 2019 with the shift form the first and second iteration of the "Conte" cabinet and it just happened again with the installation of Mario Draghi's cabinet.
 
-The high instability of the italian majorities led too several early election turn, making this practice very common both in the "Prima" and "Seconda Repubblica".
+The high instability of the italian majorities led too several early elections turn, making this practice very common both in the "Prima" and "Seconda Repubblica".
 Three times (we could say four, counting the current one) in republican history a technocratic government establishment was necessary, with Dini in 1995 , Ciampi in 1993, and Monti in 2011.
 
 
@@ -386,7 +386,7 @@ ggplot(conta, aes(x="", y=n, fill=outcomes)) +
 
 
 In order to show the differences in duration between the Italian governments we plotted the time-spans of the 66 executives.
-The graph properly shows the behaviour of Italian republican democracy and its instability and tendency to short governments and legislatures (66 cabinets in 75 years).
+The graph properly shows the behavior of Italian republican democracy and its instability and tendency to short governments and legislatures (66 cabinets in 75 years).
 There could be, however, a new pattern towards slightly longer executives started in the 90' with the "Seconda Repubblica", all of the spikes of our graph are in fact grouped to the right side ( circa 1994 to today).
 
 
@@ -409,7 +409,7 @@ ggplotly(time_line2)
 
 With such an high number of governments comes an almost equally great number of governments crisis; these periods spent "in office for current affairs" show great differences within one another.
 We saw that the average crisis lasts 35 days, but Italy has reached peaks of 128 days without a proper government coalition.
-However, most of the highest bars in our graph are in correspondence of new elections and consequents electoral campaigns, both for natural end of the legislature and for the call to early elections.
+However, most of the highest bars in our graph are in correspondence of new elections and consequent electoral campaigns, both for natural end of the legislature and for the call to early elections.
 
 
 
@@ -436,7 +436,7 @@ ggplotly(g2)
 
 ### Caretaker governments and technocracies, an European overview
 
-In light of our analysis of the Italian history and situation we wanted to compare it with similar political realities, a.i Europe.
+In light of our analysis of the Italian history and situation we wanted to compare it with similar political realities, i.e. Europe.
 Is Italian instability an anomaly? Is it common for a contemporary democracy to recur to caretaker cabinets as an instrument to handle crisis and emergencies?
 
 In order to do so, we had to fetch new data, and create a new table to work with; we were helped by McDonnel and Valbruzzi's paper "Defining and classifying technocrat-led and technocratic governments" (2014).
@@ -568,11 +568,11 @@ fd %>%
 
 
 ### Foreign perception of Italy: newspapers analysis
-The specificity of the countries and time periods that hosted caretaker governments immediately led us to think to some sort of dicotomy between the political establishments who neeeded them, and those who did not.
+The specificity of the countries and time periods that hosted caretaker governments immediately led us to think to some sort of dichotomy between the political establishments who needed them, and those who did not.
 In order to check whether there were strong opinions towards this forms of government and the usually not "reassuring" circumstances that led to their installations we tried a little experiment.
 
 We scraped the articles from a few foreign newspapers about two of the most important Italian government crisis, the ones that led to  Mario Monti's cabinet in 2011, and the most recent one which conducted to the establishment of a new majority led by Mario Draghi.
-Unfortunately, we encountered several issues with the non-english articles (from LeMonde and Spiegel) and decided to only use the Guardian and BBC to perform our analysis. The Text analysis was quite a miss and a disappointment, nothing interesting emerged from it, the most used words were all only connected to mere "narration" rather than to proper opinions.
+Unfortunately, we encountered several issues with the non-english articles (from LeMonde and Der Spiegel) and decided to only use the Guardian and BBC to perform our analysis. The Text analysis was quite a miss and a disappointment, nothing interesting emerged from it, the most used words were all only connected to mere "narration" rather than to proper opinions.
 We decided then to try with a sentiment analysis which is reported below:
 the results were a little more informative; "positive" and "trust" were the two emotions with the highest frequency along with "negative".
 This actually makes sense when compared to what we red in both occasions on our national newspapers, the advent of technocracies is in fact compatible with a "negative" situation to begin with, but also with the necessity to be "positive" towards this solution and "trust" in the new highly competent cabinet. Both Monti and Draghi are perfect examples of  widely respected technicians even from an international point of view that were deemed trustworthy and capable from both national and foreign papers.  
