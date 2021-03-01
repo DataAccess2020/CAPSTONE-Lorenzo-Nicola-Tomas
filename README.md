@@ -1,4 +1,4 @@
-#Instability and Technocracy in Italy: A Bird's Eye View
+# Instability and Technocracy in Italy: A Bird's Eye View
 
 ## About the project
 
